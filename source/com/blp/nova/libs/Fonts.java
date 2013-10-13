@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Project: CataclysmicBattles - 
+ * Project: CataclysmicBattles <br>
  *
  * Class: Fonts
  *
@@ -29,26 +29,43 @@ import java.util.ArrayList;
  */
 public class Fonts {
 
+    /**
+     * An array list that contains all of our custom fonts
+     */
     private static ArrayList<Fonts> fontList = new ArrayList<Fonts>();
     
+    /**
+     * The path to our font
+     */
     private static String fontPath;
     
+    /**
+     * Creates a new custom font
+     * @param filePath the file path of the TTF font
+     */
     public Fonts(String filePath){
         Fonts.fontPath = Reference.FONT_LOCATION + filePath;
         registerFont();
     }
     
+    /**
+     * Registers the font with the graphics environment and temporary installs it onto the runtime
+     */
     private void registerFont(){
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();   //we need to register our font with the graphics environment we are in
         
         try{
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontPath)));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontPath)));  //creates a true-type font from our file path
         } catch(Exception e){
-            e.printStackTrace();
+            e.printStackTrace(); //this can fail, so lets make sure to print the error so we know that our crash had something to do with our loading of fonts
         }
     }
   
 
+    /**
+     * Adds a new font to our list
+     * @param font the new <code> Fonts</code> object
+     */
     public static void addFont(Fonts font){
         fontList.add(font);
     }

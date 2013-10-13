@@ -17,7 +17,7 @@ package com.blp.nova.libs;
 import java.awt.image.BufferedImage;
 
 /**
- * Project: CataclysmicBattles - 
+ * Project: CataclysmicBattles <br>
  *
  * Class: Images
  *
@@ -26,5 +26,8 @@ import java.awt.image.BufferedImage;
  */
 public class Images {
 
+    /*
+     * This is a reference class to contain all of our images that will be used in the game
+     */
     public static BufferedImage title;
 }

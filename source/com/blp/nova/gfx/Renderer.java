@@ -20,7 +20,7 @@ import java.awt.Graphics;
 import com.blp.nova.Game;
 
 /**
- * Project: CataclysmicBattles - 
+ * Project: CataclysmicBattles <br>
  *
  * Class: Renderer
  *
@@ -29,7 +29,11 @@ import com.blp.nova.Game;
  */
 public class Renderer {
 
-    
+    /**
+     * Renders the background of the game
+     * <br>This includes things that will not effect or interact with the player
+     * @param g the Graphics context of our <strong> <code> Game class </strong> </code>
+     */
     public void renderBackground(Graphics g) {
         switch(Game.state){
             case GAME:
@@ -49,6 +53,11 @@ public class Renderer {
         }
     }
 
+    /**
+     * Renders the foreground of the game
+     * <br>This includes things that will effect or interact with the player
+     * @param g the Graphics context of our <strong> <code> Game class </strong> </code>
+     */
     public void renderForeground(Graphics g) {
 
     }

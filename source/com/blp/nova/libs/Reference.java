@@ -26,11 +26,26 @@ import com.blp.nova.Game;
  */
 public class Reference {
 
+    /**
+     * The horizontal center of the window
+     */
     public static final int CENTER_X = Game.WIDTH / 2;
+    /**
+     * The vertical center of the window
+     */
     public static final int CENTER_Y = Game.HEIGHT / 2;
     
+    /**
+     * The base location of our resource folder
+     */
     public static final String RESOURCE_LOCATION = "./resources/";
+    /**
+     * The base location of our sprite folder
+     */
     public static final String SPRITE_LOCATION = RESOURCE_LOCATION + "sprites/";
+    /**
+     * The base location of our fonts folder
+     */
     public static final String FONT_LOCATION = RESOURCE_LOCATION + "fonts/";
     
 

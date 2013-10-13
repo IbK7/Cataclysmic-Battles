@@ -22,7 +22,7 @@ import com.blp.nova.Game;
 import com.blp.nova.enums.GameState;
 
 /**
- * Project: CataclysmicBattles - 
+ * Project: CataclysmicBattles <br>
  *
  * Class: MouseInput
  *
@@ -31,21 +31,31 @@ import com.blp.nova.enums.GameState;
  */
 public class MouseInput extends MouseAdapter {
     
+    /**
+     * The x and y coords of the mouse
+     */
     public static int MOUSE_X, MOUSE_Y;
+    
+    /**
+     * Used to check for intersection in other classes <br> set to a 1x1 at location (1,1) by default, to avoid a NullPointerException
+     */
     public static Rectangle MOUSE = new Rectangle(1,1,1,1);
 
     @Override
+    /**
+     * This method is called whenever a mouse button is clicked
+     */
     public void mouseClicked(MouseEvent e) {
-        int mouse = e.getButton();
-        Rectangle rect = new Rectangle(e.getX(), e.getY(), 1, 1);
+        int mouse = e.getButton();  //used to check what button was clicked
+        Rectangle rect = new Rectangle(e.getX(), e.getY(), 1, 1);  //creates a 1x1 rectangle around the cursor to be used to check where it was clicked
 
-        if (mouse == MouseEvent.BUTTON1) {
+        if (mouse == MouseEvent.BUTTON1) {  //only do this stuff if the left mouse button was clicked
 
-            switch (Game.state) {
+            switch (Game.state) {  //depending on what state the game is in, check for the following cases
                 case GAME:
                     break;
                 case MENU:
-                    if (rect.intersects(Game.getInstance().menu.play))
+                    if (rect.intersects(Game.getInstance().menu.play))  //Example, if we click our menu's play button, change the state to GAME
                         Game.state = GameState.GAME;
                     break;
                 case OPTIONS:
@@ -60,6 +70,9 @@ public class MouseInput extends MouseAdapter {
     }
     
     @Override
+    /**
+     * This is called whenever the mouse is moved
+     */
     public void mouseMoved(MouseEvent e) {
         MOUSE_X = e.getX();
         MOUSE_Y = e.getY();

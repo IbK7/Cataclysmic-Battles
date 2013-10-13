@@ -34,8 +34,14 @@ public class BufferedImageLoader {
 
     private BufferedImage image;
     
+    /**
+     * Loads the image into our game
+     * @param imagePath the path of the image, including the file extension
+     * @return the image
+     * @throws IOException there is a chance this can fail, so we will need to account for the exception when we load the image
+     */
     public BufferedImage loadImage(String imagePath) throws IOException{
-        image = ImageIO.read(new File(Reference.SPRITE_LOCATION + imagePath));
+        image = ImageIO.read(new File(Reference.SPRITE_LOCATION + imagePath));  //reads the file and turns it into an image
         return image;
     }
 

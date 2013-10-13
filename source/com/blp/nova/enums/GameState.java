@@ -15,7 +15,7 @@
 package com.blp.nova.enums;
 
 /**
- * Project: CataclysmicBattles - 
+ * Project: CataclysmicBattles <br>
  *
  * Class: GameState
  *
@@ -23,7 +23,9 @@ package com.blp.nova.enums;
  *
  */
 public enum GameState {
-    
+    /*
+     * This enumeration class is used to control the state of our game
+     */
     MENU,
     GAME,
     OPTIONS,

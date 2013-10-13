@@ -25,7 +25,7 @@ import com.blp.nova.libs.Images;
 import com.blp.nova.libs.Reference;
 
 /**
- * Project: CataclysmicBattles - 
+ * Project: CataclysmicBattles <br>
  *
  * Class: Menu
  *
@@ -34,28 +34,41 @@ import com.blp.nova.libs.Reference;
  */
 public class Menu {
 
-    public Rectangle play, options, quit;
-//    private static int centerY = Game.HEIGHT / 2;
+    public Rectangle play, options, quit;  //Our buttons on the menu
     
+    /**
+     * Creates a new menu with the play, options, and quit buttons
+     */
     public Menu(){
-        int fillerY = 150;
+        int fillerY = 150; //used to facilitate the placing of the buttons vertically
         play = new Rectangle(Reference.CENTER_X - 100, fillerY, 200, 50);
         options = new Rectangle(Reference.CENTER_X - 100, fillerY+=60, 200, 50);
         quit = new Rectangle(Reference.CENTER_X - 100, fillerY+=60, 200, 50);
         
     }
 
+    /**
+     * Utility method to facilitate the drawing of rectangles for our buttons
+     * @param g the Graphics context of our <strong> <code> Game class </strong> </code>
+     * @param rect the rectangle or in our case, the <i> button </i> to be drawn
+     * @param text the text to be displayed on the button
+     * @param offsetX  The horizontal offset determines how to far or near to the left of the button to start drawing the rectangle
+     */
     public void drawButton(Graphics g, Rectangle rect, String text, int offsetX){
         Font viking = new Font("Viking-Normal", Font.PLAIN, 32);
-        g.setFont(viking);
-        if(MouseInput.MOUSE.intersects(rect) && MouseInput.MOUSE != null){
+        g.setFont(viking);  //sets the font of the text on the buttons
+        if(MouseInput.MOUSE.intersects(rect)){  //show our buttons in yellow when our mouse hovers over them
             g.setColor(Color.YELLOW);
-        }else
+        }else  //other wise, show the button in white
             g.setColor(Color.WHITE);
         g.drawRect(rect.x, rect.y, rect.width, rect.height);
         g.drawString(text, rect.x + offsetX, rect.y + 38);
     }
     
+    /**
+     * Draws the menu
+     * @param g the Graphics context of our <strong> <code> Game class </strong> </code>
+     */
     public void render(Graphics g){
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);

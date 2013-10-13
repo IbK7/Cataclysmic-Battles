@@ -31,7 +31,7 @@ import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.ResourceLoader;
 
 /**
- * Project: CataclysmicBattles - 
+ * Project: CataclysmicBattles <br>
  *
  * Class: Game
  *

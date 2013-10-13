@@ -31,18 +31,24 @@ public class ResourceLoader {
 
     private static BufferedImageLoader imageLoader = new BufferedImageLoader();
     
+    /**
+     * Loads all of the images and sprites to be used in the game
+     */
     public static void loadImages(){
         
         try{
             Images.title = imageLoader.loadImage("title.png");
         } catch(IOException e){
-            e.printStackTrace();
+            e.printStackTrace();  //We need to know why we crashed!
         }
         
     }
 
+    /**
+     * Loads all of the fonts to be used in the game
+     */
     public static void loadFonts(){
-        Fonts.addFont(new Fonts("VIKING-N.TTF"));
+        Fonts.addFont(new Fonts("VIKING-N.TTF")); //This is the file name, NOT the font name
     }
     
 }
