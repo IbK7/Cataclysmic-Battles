@@ -20,6 +20,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import com.blp.nova.Game;
+import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Images;
 import com.blp.nova.libs.Reference;
 
@@ -47,7 +48,10 @@ public class Menu {
     public void drawButton(Graphics g, Rectangle rect, String text, int offsetX){
         Font viking = new Font("Viking-Normal", Font.PLAIN, 32);
         g.setFont(viking);
-        g.setColor(Color.WHITE);
+        if(MouseInput.MOUSE.intersects(rect) && MouseInput.MOUSE != null){
+            g.setColor(Color.YELLOW);
+        }else
+            g.setColor(Color.WHITE);
         g.drawRect(rect.x, rect.y, rect.width, rect.height);
         g.drawString(text, rect.x + offsetX, rect.y + 38);
     }

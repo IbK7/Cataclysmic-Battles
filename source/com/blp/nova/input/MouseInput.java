@@ -30,6 +30,9 @@ import com.blp.nova.enums.GameState;
  *
  */
 public class MouseInput extends MouseAdapter {
+    
+    public static int MOUSE_X, MOUSE_Y;
+    public static Rectangle MOUSE = new Rectangle(1,1,1,1);
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -54,6 +57,14 @@ public class MouseInput extends MouseAdapter {
 
             }
         }
+    }
+    
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        MOUSE_X = e.getX();
+        MOUSE_Y = e.getY();
+        MOUSE = new Rectangle(MOUSE_X, MOUSE_Y, 1, 1);
+        
     }
 
 }
