@@ -19,12 +19,13 @@ import java.awt.Graphics;
 
 import com.blp.nova.Game;
 
+
 /**
- * Project: CataclysmicBattles <br>
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: Renderer
+ * <strong>Class:</strong> Renderer
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public class Renderer {
@@ -39,7 +40,7 @@ public class Renderer {
             case GAME:
                 break;
             case MENU:
-                Game.getInstance().menu.render(g);
+                Game.getInstance().getMenu().render(g);
                 break;
             case OPTIONS:
                 break;

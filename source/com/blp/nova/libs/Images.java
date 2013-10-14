@@ -16,12 +16,13 @@ package com.blp.nova.libs;
 
 import java.awt.image.BufferedImage;
 
+
 /**
- * Project: CataclysmicBattles <br>
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: Images
+ * <strong>Class:</strong> Images
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public class Images {

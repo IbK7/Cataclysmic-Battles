@@ -30,18 +30,20 @@ import com.blp.nova.libs.Reference;
 import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.ResourceLoader;
 
+
 /**
- * Project: CataclysmicBattles <br>
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: Game
+ * <strong>Class:</strong> Game
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public class Game extends Canvas implements Runnable {
 
-    //Docs for serialVersionUID came from java.io.Serializable
 /**
+ * Docs for serialVersionUID came from <code> java.io.Serializable </code>
+ * <br><br>
  * The serialization runtime associates with each serializable class a version
  * number, called a serialVersionUID, which is used during deserialization to
  * verify that the sender and receiver of a serialized object have loaded
@@ -88,30 +90,34 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;  //by default, we need this to be false so we do not exit our start method right away
     private Thread thread;  //the thread that will control our game loop
     private Renderer gfx;  //an object of our renderer class
-    public Menu menu;  //our menu object
+    private Menu menu;  //our menu object
     
     
     /**
-     * Used to access the Game class non-static members
+     * Used to access the Game class <i>non-static members</i>
      * @return the instance of the game
      */
     public static Game getInstance(){
         return game;
     }
+    
+    public Menu getMenu(){
+        return menu;
+    }
 
     /**
      * Acts as the constructor for the game
      * <br> I simply prefer it this way <br>
-     * <strong> This initializes the game objects, resources, listeners, etc
+     * <strong> This initializes the game objects, resources, listeners, etc </strong>
      */
     public void init() {
-        ResourceLoader.loadImages();
-        ResourceLoader.loadFonts();
-        menu = new Menu();
-        gfx = new Renderer();
-        MouseInput mouse = new MouseInput();
-        this.addMouseListener(mouse);
-        this.addMouseMotionListener(mouse);
+        ResourceLoader.loadImages();  //Loads our images and sprites
+        ResourceLoader.loadFonts();  //Loads our fonts
+        menu = new Menu();  //creates our menu
+        gfx = new Renderer();  //initializes our renderer
+        MouseInput mouse = new MouseInput();  //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
+        this.addMouseListener(mouse); //adds a listener to listen for clicking of mouse buttons
+        this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
 
     }
 

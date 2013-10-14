@@ -14,12 +14,13 @@
 */
 package com.blp.nova.enums;
 
+
 /**
- * Project: CataclysmicBattles <br>
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: GameState
+ * <strong>Class:</strong> GameState
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public enum GameState {

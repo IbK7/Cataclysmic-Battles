@@ -17,53 +17,36 @@ package com.blp.nova.screens;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
 import com.blp.nova.Game;
-import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Images;
 import com.blp.nova.libs.Reference;
+import com.blp.nova.utils.Button;
+
 
 /**
- * Project: CataclysmicBattles <br>
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: Menu
+ * <strong>Class:</strong> Menu
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public class Menu {
 
-    public Rectangle play, options, quit;  //Our buttons on the menu
+    public Button play, options, quit;  //Our buttons on the menu
     
     /**
      * Creates a new menu with the play, options, and quit buttons
      */
     public Menu(){
         int fillerY = 150; //used to facilitate the placing of the buttons vertically
-        play = new Rectangle(Reference.CENTER_X - 100, fillerY, 200, 50);
-        options = new Rectangle(Reference.CENTER_X - 100, fillerY+=60, 200, 50);
-        quit = new Rectangle(Reference.CENTER_X - 100, fillerY+=60, 200, 50);
+        play = new Button(Reference.CENTER_X - 100, fillerY, 200, 50).setText("Play");
+        options = new Button(Reference.CENTER_X - 100, fillerY+=60, 200, 50).setText("Options");
+        quit = new Button(Reference.CENTER_X - 100, fillerY+=60, 200, 50).setText("Quit");
         
     }
 
-    /**
-     * Utility method to facilitate the drawing of rectangles for our buttons
-     * @param g the Graphics context of our <strong> <code> Game class </strong> </code>
-     * @param rect the rectangle or in our case, the <i> button </i> to be drawn
-     * @param text the text to be displayed on the button
-     * @param offsetX  The horizontal offset determines how to far or near to the left of the button to start drawing the rectangle
-     */
-    public void drawButton(Graphics g, Rectangle rect, String text, int offsetX){
-        Font viking = new Font("Viking-Normal", Font.PLAIN, 32);
-        g.setFont(viking);  //sets the font of the text on the buttons
-        if(MouseInput.MOUSE.intersects(rect)){  //show our buttons in yellow when our mouse hovers over them
-            g.setColor(Color.YELLOW);
-        }else  //other wise, show the button in white
-            g.setColor(Color.WHITE);
-        g.drawRect(rect.x, rect.y, rect.width, rect.height);
-        g.drawString(text, rect.x + offsetX, rect.y + 38);
-    }
     
     /**
      * Draws the menu
@@ -73,8 +56,13 @@ public class Menu {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
         g.drawImage(Images.title, 128, 10, null);
-        drawButton(g, play, "Play", 55);
-        drawButton(g, options, "Options", 15);
-        drawButton(g, quit, "Quit", 55);
+        
+        Font viking = new Font("Viking-Normal", Font.PLAIN, 32);
+        g.setFont(viking);  //sets the font of the text on the buttons
+        
+        play.drawButton(g, 55);
+        options.drawButton(g, 15);
+        quit.drawButton(g, 55);
+
     }
 }

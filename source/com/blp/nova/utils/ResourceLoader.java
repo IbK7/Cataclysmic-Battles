@@ -19,12 +19,13 @@ import java.io.IOException;
 import com.blp.nova.libs.Fonts;
 import com.blp.nova.libs.Images;
 
+
 /**
- * Project: CataclysmicBattles - 
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: ResourceLoader
+ * <strong>Class:</strong> ResourceLoader
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public class ResourceLoader {

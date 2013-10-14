@@ -22,12 +22,13 @@ import javax.imageio.ImageIO;
 
 import com.blp.nova.libs.Reference;
 
+
 /**
- * Project: CataclysmicBattles - 
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: BufferedImageLoader
+ * <strong>Class:</strong> BufferedImageLoader
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public class BufferedImageLoader {

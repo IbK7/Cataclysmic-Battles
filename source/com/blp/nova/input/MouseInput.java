@@ -21,12 +21,13 @@ import java.awt.event.MouseEvent;
 import com.blp.nova.Game;
 import com.blp.nova.enums.GameState;
 
+
 /**
- * Project: CataclysmicBattles <br>
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: MouseInput
+ * <strong>Class:</strong> MouseInput
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public class MouseInput extends MouseAdapter {
@@ -55,7 +56,7 @@ public class MouseInput extends MouseAdapter {
                 case GAME:
                     break;
                 case MENU:
-                    if (rect.intersects(Game.getInstance().menu.play))  //Example, if we click our menu's play button, change the state to GAME
+                    if (rect.intersects(Game.getInstance().getMenu().play))  //Example, if we click our menu's play button, change the state to GAME
                         Game.state = GameState.GAME;
                     break;
                 case OPTIONS:

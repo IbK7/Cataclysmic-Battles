@@ -19,12 +19,13 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.util.ArrayList;
 
+
 /**
- * Project: CataclysmicBattles <br>
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: Fonts
+ * <strong>Class:</strong> Fonts
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public class Fonts {

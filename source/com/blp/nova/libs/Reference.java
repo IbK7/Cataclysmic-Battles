@@ -16,12 +16,13 @@ package com.blp.nova.libs;
 
 import com.blp.nova.Game;
 
+
 /**
- * Project: CataclysmicBattles - 
+ * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * Class: Reference
+ * <strong>Class:</strong> Reference
  *
- * @author BossLetsPlays
+ * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
 public class Reference {
