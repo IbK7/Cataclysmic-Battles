@@ -48,6 +48,10 @@ public class Reference {
      * The base location of our fonts folder
      */
     public static final String FONT_LOCATION = RESOURCE_LOCATION + "fonts/";
+    /**
+     * The base location of our sounds folder
+     */
+    public static final String SOUND_LOCATION = RESOURCE_LOCATION + "sounds/";
     
 
 }

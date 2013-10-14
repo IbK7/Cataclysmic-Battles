@@ -51,5 +51,5 @@ public class ResourceLoader {
     public static void loadFonts(){
         Fonts.addFont(new Fonts("VIKING-N.TTF")); //This is the file name, NOT the font name
     }
-    
+
 }

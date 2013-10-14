@@ -121,11 +121,20 @@ public class Button extends Rectangle {
         int xx = x + offset;
         int yy = y + 38;
         
+        
         if(MouseInput.MOUSE.intersects(this)){  //show our buttons in yellow when our mouse hovers over them
             g.setColor(Color.YELLOW);
         }else  //other wise, show the button in white
             g.setColor(Color.WHITE);
-        g.drawRect(x, y, width, height);
+        
+        if(!MouseInput.pressed && MouseInput.MOUSE.intersects(this))
+            g.drawRect(x, y, width, height);
+        else if(MouseInput.pressed && MouseInput.MOUSE.intersects(this)) //fills in the button when we press it
+            g.fillRect(x, y, width, height);
+        else
+            g.drawRect(x,y,width,height);
+        
+        g.setColor(Color.RED);
         g.drawString(text, xx, yy);
     }
 

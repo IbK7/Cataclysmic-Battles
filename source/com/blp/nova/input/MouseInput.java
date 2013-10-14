@@ -33,6 +33,11 @@ import com.blp.nova.enums.GameState;
 public class MouseInput extends MouseAdapter {
     
     /**
+     * true if a mouse button is pressed
+     */
+    public static boolean pressed = false;
+    
+    /**
      * The x and y coords of the mouse
      */
     public static int MOUSE_X, MOUSE_Y;
@@ -58,6 +63,8 @@ public class MouseInput extends MouseAdapter {
                 case MENU:
                     if (rect.intersects(Game.getInstance().getMenu().play))  //Example, if we click our menu's play button, change the state to GAME
                         Game.state = GameState.GAME;
+                    else if(rect.intersects(Game.getInstance().getMenu().quit))
+                        System.exit(1);  //Exits the game
                     break;
                 case OPTIONS:
                     break;
@@ -72,6 +79,24 @@ public class MouseInput extends MouseAdapter {
     
     @Override
     /**
+     * This is called while we have a mouse button held down
+     */
+    public void mousePressed(MouseEvent e) {
+        pressed = true;
+    }
+    
+    @Override
+    /**
+     * This is called whenever we release the mouse button
+     */
+    public void mouseReleased(MouseEvent e) {
+        
+        pressed = false;
+        
+    }
+    
+    @Override
+    /**
      * This is called whenever the mouse is moved
      */
     public void mouseMoved(MouseEvent e) {
@@ -80,5 +105,7 @@ public class MouseInput extends MouseAdapter {
         MOUSE = new Rectangle(MOUSE_X, MOUSE_Y, 1, 1);
         
     }
+    
+    
 
 }
