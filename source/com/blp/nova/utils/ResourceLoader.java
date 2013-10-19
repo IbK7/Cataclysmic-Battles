@@ -16,6 +16,7 @@ package com.blp.nova.utils;
 
 import java.io.IOException;
 
+import com.blp.nova.libs.Audio;
 import com.blp.nova.libs.Fonts;
 import com.blp.nova.libs.Images;
 
@@ -50,6 +51,15 @@ public class ResourceLoader {
      */
     public static void loadFonts(){
         Fonts.addFont(new Fonts("VIKING-N.TTF")); //This is the file name, NOT the font name
+    }
+    
+    
+    /**
+     * Load sounds into the game<br>
+     * This includes <code>Sound</code> Effects and <code>Music</code>
+     */
+    public static void loadSounds(){
+        AudioPlayer.addSound(Audio.LASER, "Laser.ogg");
     }
 
 }

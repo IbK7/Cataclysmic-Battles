@@ -113,6 +113,7 @@ public class Game extends Canvas implements Runnable {
     public void init() {
         ResourceLoader.loadImages();  //Loads our images and sprites
         ResourceLoader.loadFonts();  //Loads our fonts
+        ResourceLoader.loadSounds(); //Loads our sounds
         menu = new Menu();  //creates our menu
         gfx = new Renderer();  //initializes our renderer
         MouseInput mouse = new MouseInput();  //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better

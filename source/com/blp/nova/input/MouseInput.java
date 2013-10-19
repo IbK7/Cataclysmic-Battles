@@ -20,6 +20,8 @@ import java.awt.event.MouseEvent;
 
 import com.blp.nova.Game;
 import com.blp.nova.enums.GameState;
+import com.blp.nova.libs.Audio;
+import com.blp.nova.utils.AudioPlayer;
 
 
 /**
@@ -61,8 +63,10 @@ public class MouseInput extends MouseAdapter {
                 case GAME:
                     break;
                 case MENU:
-                    if (rect.intersects(Game.getInstance().getMenu().play))  //Example, if we click our menu's play button, change the state to GAME
-                        Game.state = GameState.GAME;
+                    if (rect.intersects(Game.getInstance().getMenu().play)){  //Example, if we click our menu's play button, change the state to GAME
+                       AudioPlayer.getSound(Audio.LASER).play();  //make sure you play your sound before changing the game's state
+                       Game.state = GameState.GAME;
+                    }
                     else if(rect.intersects(Game.getInstance().getMenu().quit))
                         System.exit(1);  //Exits the game
                     break;
