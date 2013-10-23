@@ -17,6 +17,7 @@ package com.blp.nova.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
@@ -32,20 +33,47 @@ import com.blp.nova.libs.Reference;
  */
 public class AudioPlayer {
     
+    
     /**
      * A hash map to contain all of our game's sound effects
      */
     private static Map<String, Sound> soundMap = new HashMap<String, Sound>();
+    /**
+     * A hash map to contain all of our game's music
+     */
+    private static Map<String, Music> musicMap = new HashMap<String, Music>();
+    
+    
+    
+    
+    public static boolean hasPlayedHover = false;
     
     
     /**
-     * Adds a new sound into the hash map
+     * Adds a new sound into the hash map<br>
+     * The file must be <strong>.xm, .mod, .aif, .wav or .ogg</strong> format
      * @param key the key or ID that will be used to access this sound effect
      * @param path the name of the sound file
      */
     public static void addSound(String key, String path){
         try {
             soundMap.put(key, new Sound(Reference.SOUND_LOCATION + path));
+        } catch (SlickException e) {
+            
+            e.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     * Adds a new song into the hash map<br>
+     * The file must be <strong>.xm, .mod, .ogg, or .aif/f</strong> format
+     * @param key the key or ID that will be used to access this song
+     * @param path the name of the song file
+     */
+    public static void addMusic(String key, String path){
+        try {
+            musicMap.put(key, new Music(Reference.SOUND_LOCATION + path));
         } catch (SlickException e) {
             
             e.printStackTrace();
@@ -59,6 +87,32 @@ public class AudioPlayer {
      */
     public static Sound getSound(String key){
         return soundMap.get(key);
+    }
+    
+    
+    /**
+     * Used to obtain a song to be played
+     * @param key the key or ID of the song
+     * @return the song
+     */
+    public static Music getMusic(String key){
+        return musicMap.get(key);
+    }
+    
+    /**
+     * Plays a sound effect
+     * @param key the key of the sound
+     */
+    public static void playSound(String key){
+        soundMap.get(key).play(); //We will later be working with volume when we get into options portion of the tutorial
+    }
+    
+    /**
+     * Loops a song
+     * @param key the key of the song
+     */
+    public static void playMusic(String key){
+        musicMap.get(key).loop(); //We will later be working with volume when we get into options portion of the tutorial
     }
 
 }

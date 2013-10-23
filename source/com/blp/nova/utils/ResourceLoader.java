@@ -59,7 +59,9 @@ public class ResourceLoader {
      * This includes <code>Sound</code> Effects and <code>Music</code>
      */
     public static void loadSounds(){
-        AudioPlayer.addSound(Audio.LASER, "Laser.ogg");
+        AudioPlayer.addSound(Audio.SOUND_LASER, "Laser.ogg");
+        
+        AudioPlayer.addMusic(Audio.MUSIC_MOON, "Moon.ogg");
     }
 
 }

@@ -24,6 +24,16 @@ package com.blp.nova.libs;
  */
 public class Audio {
     
-    public static final String LASER = "laser";
+    /*
+     * SOUND EFFECTS
+     */
+    public static final String SOUND_LASER = "laser";
+    
+    
+    /*
+     * MUSIC
+     */
+    public static final String MUSIC_MOON = "moon";
+    
 
 }

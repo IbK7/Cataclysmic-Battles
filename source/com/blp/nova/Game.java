@@ -18,16 +18,20 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.io.InvalidClassException;
 
 import javax.swing.JFrame;
 
 import com.blp.nova.enums.GameState;
 import com.blp.nova.gfx.Renderer;
 import com.blp.nova.input.MouseInput;
+import com.blp.nova.libs.Audio;
 import com.blp.nova.libs.Reference;
 import com.blp.nova.screens.Menu;
+import com.blp.nova.utils.AudioPlayer;
 import com.blp.nova.utils.ResourceLoader;
 
 
@@ -92,7 +96,6 @@ public class Game extends Canvas implements Runnable {
     private Renderer gfx;  //an object of our renderer class
     private Menu menu;  //our menu object
     
-    
     /**
      * Used to access the Game class <i>non-static members</i>
      * @return the instance of the game
@@ -104,6 +107,8 @@ public class Game extends Canvas implements Runnable {
     public Menu getMenu(){
         return menu;
     }
+    
+
 
     /**
      * Acts as the constructor for the game
@@ -119,7 +124,9 @@ public class Game extends Canvas implements Runnable {
         MouseInput mouse = new MouseInput();  //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
         this.addMouseListener(mouse); //adds a listener to listen for clicking of mouse buttons
         this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
+        
 
+        AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music
     }
 
     /**
@@ -198,10 +205,13 @@ public class Game extends Canvas implements Runnable {
     }
 
     public static void main(String args[]) {
-        Image icon = Toolkit.getDefaultToolkit().getImage(Reference.RESOURCE_LOCATION + "icon2.png");  //This is the image we will be using as our window's icon
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image icon = toolkit.getImage(Reference.RESOURCE_LOCATION + "icon2.png");  //This is the image we will be using as our window's icon
+        Image cursor = toolkit.getImage(Reference.RESOURCE_LOCATION + "cursor.gif");
         frame.add(game);  //adds our game as a component to the frame
         frame.setTitle(TITLE); //sets the title
         frame.setIconImage(icon); //sets the icon we specified above
+        frame.setCursor(toolkit.createCustomCursor(cursor, new Point(frame.getX(), frame.getY()), "cursor"));
         frame.setSize(WIDTH, HEIGHT); //sets the size of our window
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //makes it so that when we click the red X (on windows, red circle i guess for macs) we then exit the game
         frame.setFocusable(true); //This way we are able to use keyboards and our mouse and all that good stuff
