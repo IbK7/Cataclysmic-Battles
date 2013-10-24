@@ -45,7 +45,9 @@ public class AudioPlayer {
     
     
     
-    
+    /**
+     * Used to help sounds not "machine gun" when mouse hovers over a button
+     */
     public static boolean hasPlayedHover = false;
     
     

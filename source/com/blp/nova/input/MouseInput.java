@@ -69,9 +69,6 @@ public class MouseInput extends MouseAdapter {
                         AudioPlayer.playSound(Audio.SOUND_LASER);
                         Game.state = GameState.OPTIONS;
                     }
-                    else if (rect.intersects(Game.getInstance().getMenu().quit)) {
-                        System.exit(1); //Exits the game
-                    }
                     break;
                 case OPTIONS:
                     break;
@@ -90,6 +87,12 @@ public class MouseInput extends MouseAdapter {
      */
     public void mousePressed(MouseEvent e) {
         pressed = true;
+        MOUSE = new Rectangle(e.getX(), e.getY(), 1, 1);
+        if(Game.state == GameState.MENU){
+            if(MOUSE.intersects(Game.getInstance().getMenu().quit)){
+                AudioPlayer.playSound(Audio.SOUND_LASER);
+            }
+        }
     }
 
     @Override
@@ -97,8 +100,13 @@ public class MouseInput extends MouseAdapter {
      * This is called whenever we release the mouse button
      */
     public void mouseReleased(MouseEvent e) {
-
         pressed = false;
+        MOUSE = new Rectangle(e.getX(), e.getY(), 1, 1);
+        if(Game.state == GameState.MENU){
+            if(MOUSE.intersects(Game.getInstance().getMenu().quit)){
+                System.exit(1);
+            }
+        }
 
     }
 
@@ -116,10 +124,19 @@ public class MouseInput extends MouseAdapter {
             case GAME:
                 break;
             case MENU:
-                if ((MOUSE.intersects(Game.getInstance().getMenu().play) || MOUSE.intersects(Game.getInstance().getMenu().options) || MOUSE.intersects(Game.getInstance().getMenu().quit)) && !AudioPlayer.hasPlayedHover) {
+                if ((MOUSE.intersects(Game.getInstance().getMenu().play)           //Only do this if the mouse is hovering over a button and the sound has not already played
+                        || MOUSE.intersects(Game.getInstance().getMenu().options)
+                        || MOUSE.intersects(Game.getInstance().getMenu().quit))
+                        && !AudioPlayer.hasPlayedHover) {
+                    
                     AudioPlayer.playSound(Audio.SOUND_LASER);
-                    AudioPlayer.hasPlayedHover = true;
-                }else if(!(MOUSE.intersects(Game.getInstance().getMenu().play) || MOUSE.intersects(Game.getInstance().getMenu().options) || MOUSE.intersects(Game.getInstance().getMenu().quit)) && AudioPlayer.hasPlayedHover){
+                    AudioPlayer.hasPlayedHover = true;  //The sound has played, so lets set it to true
+                    
+                }else if(!(MOUSE.intersects(Game.getInstance().getMenu().play)    //If the mouse is not hovering over a button, then reset the boolean to false
+                        || MOUSE.intersects(Game.getInstance().getMenu().options)
+                        || MOUSE.intersects(Game.getInstance().getMenu().quit))
+                        && AudioPlayer.hasPlayedHover){
+                    
                     AudioPlayer.hasPlayedHover = false;
                 }
                 break;
