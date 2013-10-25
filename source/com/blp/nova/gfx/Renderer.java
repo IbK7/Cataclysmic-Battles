@@ -57,10 +57,24 @@ public class Renderer {
     /**
      * Renders the foreground of the game
      * <br>This includes things that will effect or interact with the player
-     * @param g the Graphics context of our <strong> <code> Game class </strong> </code>
+     * @param g the Graphics context of our <strong><code>Game class</strong></code>
      */
     public void renderForeground(Graphics g) {
-
+        
+        switch(Game.state){
+            case GAME:
+                Game.getInstance().getController().render(g);  //renders all the objects we have added to the controller
+                break;
+            case MENU:
+                break;
+            case OPTIONS:
+                break;
+            case PAUSE:
+                break;
+            default:
+                break;
+            
+        }
     }
 
 }

@@ -39,7 +39,7 @@ public class MouseInput extends MouseAdapter {
     public static boolean pressed = false;
 
     /**
-     * The x and y coords of the mouse
+     * The x and y coordinates of the mouse
      */
     public static int MOUSE_X, MOUSE_Y;
 

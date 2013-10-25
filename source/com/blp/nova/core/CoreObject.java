@@ -47,7 +47,7 @@ public abstract class CoreObject {
     /**
      * The ID of the object, used to obtain the object in an array
      */
-    protected long id;
+    protected int id;
     
     /**
      * Creates a new object, however because this is an abstract class, you must make a core object equal a <strong>sub type!</strong>
@@ -55,7 +55,7 @@ public abstract class CoreObject {
      * @param y the y coordinate of the object on screen
      * @param id the ID of the object
      */
-    public CoreObject(int x, int y, long id){
+    public CoreObject(int x, int y, int id){
         this.x = x;
         this.y = y;
         this.id = id;

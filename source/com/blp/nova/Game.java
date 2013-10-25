@@ -95,6 +95,7 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;  //the thread that will control our game loop
     private Renderer gfx;  //an object of our renderer class
     private Menu menu;  //our menu object
+    private Controller controller = new Controller(); //control all of our game objects
     
     /**
      * Used to access the Game class <i>non-static members</i>
@@ -104,8 +105,18 @@ public class Game extends Canvas implements Runnable {
         return game;
     }
     
+    /**
+     * @return the <strong>Menu</strong> of the game
+     */
     public Menu getMenu(){
         return menu;
+    }
+    
+    /**
+     * @return the <strong>Controller</strong> that handles all the game objects
+     */
+    public Controller getController(){
+        return controller;
     }
     
 
@@ -134,7 +145,8 @@ public class Game extends Canvas implements Runnable {
      * This also runs the <strong> <i> logic </i> </strong> in the game
      */
     public void tick() {
-
+        if(state == GameState.GAME)
+            controller.tick();
     }
 
 
@@ -154,10 +166,14 @@ public class Game extends Canvas implements Runnable {
         g.setColor(new Color(6, 0, 40));  
         g.fillRect(0, 0, WIDTH, HEIGHT);  //We are creating a background for our game here
 
+        
         ///////////////////////////////////////////////////
 
         gfx.renderBackground(g);
         gfx.renderForeground(g);
+        
+        ///////////////////////////////////////////////////
+        
         
         g.dispose();  //Disposes our graphics context (if we did not do this, animations would not work properly, it would also eat up a lot of memory
         bs.show();  //Shows whatever graphics were just disposed of
@@ -206,7 +222,7 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String args[]) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image icon = toolkit.getImage(Reference.RESOURCE_LOCATION + "icon2.png");  //This is the image we will be using as our window's icon
+        Image icon = toolkit.getImage(Reference.RESOURCE_LOCATION + "icon3.png");  //This is the image we will be using as our window's icon
         Image cursor = toolkit.getImage(Reference.RESOURCE_LOCATION + "cursor.gif");
         frame.add(game);  //adds our game as a component to the frame
         frame.setTitle(TITLE); //sets the title
