@@ -40,6 +40,7 @@ public class ResourceLoader {
         
         try{
             Images.title = imageLoader.loadImage("title.png");
+            Images.spritesheetTest = imageLoader.loadImage("test_spritesheet.png");
         } catch(IOException e){
             e.printStackTrace();  //We need to know why we crashed!
         }

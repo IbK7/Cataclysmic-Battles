@@ -105,6 +105,7 @@ public class Game extends Canvas implements Runnable {
         return game;
     }
     
+    
     /**
      * @return the <strong>Menu</strong> of the game
      */
