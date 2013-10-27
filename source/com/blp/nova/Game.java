@@ -25,8 +25,10 @@ import java.io.InvalidClassException;
 
 import javax.swing.JFrame;
 
+import com.blp.nova.entity.Player;
 import com.blp.nova.enums.GameState;
 import com.blp.nova.gfx.Renderer;
+import com.blp.nova.gfx.Texture;
 import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Audio;
 import com.blp.nova.libs.Reference;
@@ -96,6 +98,7 @@ public class Game extends Canvas implements Runnable {
     private Renderer gfx;  //an object of our renderer class
     private Menu menu;  //our menu object
     private Controller controller = new Controller(); //control all of our game objects
+    private Texture tex;
     
     /**
      * Used to access the Game class <i>non-static members</i>
@@ -131,6 +134,7 @@ public class Game extends Canvas implements Runnable {
         ResourceLoader.loadImages();  //Loads our images and sprites
         ResourceLoader.loadFonts();  //Loads our fonts
         ResourceLoader.loadSounds(); //Loads our sounds
+        tex = new Texture();
         menu = new Menu();  //creates our menu
         gfx = new Renderer();  //initializes our renderer
         MouseInput mouse = new MouseInput();  //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
@@ -138,6 +142,8 @@ public class Game extends Canvas implements Runnable {
         this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
         
 
+        Controller.addObject(new Player(100,100, 1, tex));
+        
         AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music
     }
 

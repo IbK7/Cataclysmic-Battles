@@ -16,6 +16,8 @@ package com.blp.nova.core;
 
 import java.awt.Graphics;
 
+import com.blp.nova.gfx.Texture;
+
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
  *
@@ -49,16 +51,19 @@ public abstract class CoreObject {
      */
     protected int id;
     
+    protected Texture tex;
+    
     /**
      * Creates a new object, however because this is an abstract class, you must make a core object equal a <strong>sub type!</strong>
      * @param x the x coordinate of the object on screen
      * @param y the y coordinate of the object on screen
      * @param id the ID of the object
      */
-    public CoreObject(int x, int y, int id){
+    public CoreObject(int x, int y, int id, Texture tex){
         this.x = x;
         this.y = y;
         this.id = id;
+        this.tex = tex;
     }
     
     /**

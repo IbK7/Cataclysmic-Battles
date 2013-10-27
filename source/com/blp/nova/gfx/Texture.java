@@ -12,31 +12,38 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package com.blp.nova.libs;
+package com.blp.nova.gfx;
 
 import java.awt.image.BufferedImage;
 
+import com.blp.nova.libs.Images;
+import com.blp.nova.utils.SpriteSheet;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * <strong>Class:</strong> Images
+ * <strong>Class:</strong> Texture
  *
  * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
-public class Images {
-
-    /*
-     * This is a reference class to contain all of our images that will be used in the game
-     */
-    public static BufferedImage title;
+public class Texture {
     
-    /*
-     * Sprite sheets
-     */
-    public static BufferedImage spritesheetTest;
+    private SpriteSheet sheetTest;
     
+    public BufferedImage blockStone;
+    public BufferedImage blockMetal;
     
+    public Texture(){
+        sheetTest = new SpriteSheet(Images.spritesheetTest, 32);
+        
+        
+        initTextures();
+    }
+    
+    private void initTextures(){
+        blockStone = sheetTest.getSprite(1, 1);
+        blockMetal = sheetTest.getSprite(2, 1);
+    }
 
 }
