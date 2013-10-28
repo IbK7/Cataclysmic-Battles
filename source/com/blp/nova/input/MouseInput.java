@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import com.blp.nova.Game;
 import com.blp.nova.enums.GameState;
 import com.blp.nova.libs.Audio;
+import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.AudioPlayer;
 
 /**
@@ -47,6 +48,9 @@ public class MouseInput extends MouseAdapter {
      * Used to check for intersection in other classes <br> set to a 1x1 at location (1,1) by default, to avoid a NullPointerException
      */
     public static Rectangle MOUSE = new Rectangle(1, 1, 1, 1);
+    
+    
+    private Menu menu = Game.getInstance().getMenu();
 
     @Override
     /**
@@ -62,10 +66,10 @@ public class MouseInput extends MouseAdapter {
                 case GAME:
                     break;
                 case MENU:
-                    if (rect.intersects(Game.getInstance().getMenu().play)) { //Example, if we click our menu's play button, change the state to GAME
+                    if (rect.intersects(menu.play)) { //Example, if we click our menu's play button, change the state to GAME
                         AudioPlayer.playSound(Audio.SOUND_LASER); //make sure you play your sound before changing the game's state
                         Game.state = GameState.GAME;
-                    } else if (rect.intersects(Game.getInstance().getMenu().options)) {
+                    } else if (rect.intersects(menu.options)) {
                         AudioPlayer.playSound(Audio.SOUND_LASER);
                         Game.state = GameState.OPTIONS;
                     }
@@ -89,7 +93,7 @@ public class MouseInput extends MouseAdapter {
         pressed = true;
         MOUSE = new Rectangle(e.getX(), e.getY(), 1, 1);
         if(Game.state == GameState.MENU){
-            if(MOUSE.intersects(Game.getInstance().getMenu().quit)){
+            if(MOUSE.intersects(menu.quit)){
                 AudioPlayer.playSound(Audio.SOUND_LASER);
             }
         }
@@ -103,7 +107,7 @@ public class MouseInput extends MouseAdapter {
         pressed = false;
         MOUSE = new Rectangle(e.getX(), e.getY(), 1, 1);
         if(Game.state == GameState.MENU){
-            if(MOUSE.intersects(Game.getInstance().getMenu().quit)){
+            if(MOUSE.intersects(menu.quit)){
                 System.exit(1);
             }
         }
@@ -124,17 +128,17 @@ public class MouseInput extends MouseAdapter {
             case GAME:
                 break;
             case MENU:
-                if ((MOUSE.intersects(Game.getInstance().getMenu().play)           //Only do this if the mouse is hovering over a button and the sound has not already played
-                        || MOUSE.intersects(Game.getInstance().getMenu().options)
-                        || MOUSE.intersects(Game.getInstance().getMenu().quit))
+                if ((MOUSE.intersects(menu.play)           //Only do this if the mouse is hovering over a button and the sound has not already played
+                        || MOUSE.intersects(menu.options)
+                        || MOUSE.intersects(menu.quit))
                         && !AudioPlayer.hasPlayedHover) {
                     
                     AudioPlayer.playSound(Audio.SOUND_LASER);
                     AudioPlayer.hasPlayedHover = true;  //The sound has played, so lets set it to true
                     
-                }else if(!(MOUSE.intersects(Game.getInstance().getMenu().play)    //If the mouse is not hovering over a button, then reset the boolean to false
-                        || MOUSE.intersects(Game.getInstance().getMenu().options)
-                        || MOUSE.intersects(Game.getInstance().getMenu().quit))
+                }else if(!(MOUSE.intersects(menu.play)    //If the mouse is not hovering over a button, then reset the boolean to false
+                        || MOUSE.intersects(menu.options)
+                        || MOUSE.intersects(menu.quit))
                         && AudioPlayer.hasPlayedHover){
                     
                     AudioPlayer.hasPlayedHover = false;

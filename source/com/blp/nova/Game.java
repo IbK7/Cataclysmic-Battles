@@ -29,8 +29,10 @@ import com.blp.nova.entity.Player;
 import com.blp.nova.enums.GameState;
 import com.blp.nova.gfx.Renderer;
 import com.blp.nova.gfx.Texture;
+import com.blp.nova.input.KeyInput;
 import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Audio;
+import com.blp.nova.libs.Identities;
 import com.blp.nova.libs.Reference;
 import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.AudioPlayer;
@@ -142,7 +144,8 @@ public class Game extends Canvas implements Runnable {
         this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
         
 
-        Controller.addObject(new Player(100,100, 1, tex));
+        Controller.addObject(new Player(100,100, Identities.PLAYER, tex));
+        this.addKeyListener(new KeyInput());
         
         AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music
     }
