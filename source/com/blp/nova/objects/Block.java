@@ -12,27 +12,49 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package com.blp.nova.libs;
+package com.blp.nova.objects;
+
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
+import com.blp.nova.core.CoreObject;
+import com.blp.nova.gfx.Texture;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * <strong>Class:</strong> Identities
+ * <strong>Class:</strong> Block
  *
  * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
-public class Identities {
+public class Block extends CoreObject {
+
+
+    private BufferedImage image;
+    public Block(int x, int y, int width, int height, int id, Texture tex, BufferedImage image) {
+        super(x, y, width, height, id, tex);
+        this.image = image;
+        
+    }
     
-    /*
-     * Entity IDs
-     */
-    public static int PLAYER = 1;
+    
+
+    @Override
+    public void tick() {
+    }
+
+    @Override
+    public void render(Graphics g) {
+        g.drawImage(image, x, y, null);
+    }
+    
+    public Rectangle getTopBounds(){
+        return new Rectangle(x, y, width, height/2);
+    }
     
     
-    /*
-     * Block IDs 
-     */
-    public static int BLOCK_STONE = 10;
+    
 
 }

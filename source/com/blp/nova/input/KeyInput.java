@@ -62,8 +62,11 @@ public class KeyInput extends KeyAdapter {
         
         switch(Game.state){
             case GAME:
-                if(key == KeyEvent.VK_W)
-                    player.setVelY(-5);      //because coordinates start from bottom down(y values), we need to subtract a value to go up
+                if(key == KeyEvent.VK_W && !player.isJumping()){
+                    player.setVelY(-23);
+                    player.setJumping(true);
+                }
+//                    player.setVelY(-5);      //because coordinates start from bottom down(y values), we need to subtract a value to go up
                 if(key == KeyEvent.VK_A){
                     player.setVelX(-5);
                     keyDown[0] = true;  //set the booleans to true!
@@ -94,13 +97,10 @@ public class KeyInput extends KeyAdapter {
         
         switch(Game.state){
             case GAME:
-                if(key == KeyEvent.VK_W)
-                    player.setVelY(0);
                 if(key == KeyEvent.VK_A)
                     keyDown[0] = false;  //if you only set the velocity here, it will freeze for a bit if you try to switch to D too quickly
                 if(key == KeyEvent.VK_D)
                     keyDown[1] = false;
-                
                 if(keyDown[0] && !keyDown[1])  //Do this if our A is still pushed
                     player.setVelX(-5);
                 if(!keyDown[0] && keyDown[1])  //If D is still pushed

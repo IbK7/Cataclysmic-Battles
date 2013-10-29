@@ -51,6 +51,9 @@ public abstract class CoreObject {
      */
     protected int id;
     
+    protected int width;
+    protected int height;
+    
     protected Texture tex;
     
     /**
@@ -64,7 +67,26 @@ public abstract class CoreObject {
         this.y = y;
         this.id = id;
         this.tex = tex;
+        width = 32;
+        height = 32;
     }
+    
+    
+    /**
+     * Creates a new object, however because this is an abstract class, you must make a core object equal a <strong>sub type!</strong>
+     * @param x the x coordinate of the object on screen
+     * @param y the y coordinate of the object on screen
+     * @param id the ID of the object
+     */
+    public CoreObject(int x, int y, int width, int height, int id, Texture tex){
+        this.x = x;
+        this.y = y;
+        this.id = id;
+        this.tex = tex;
+        this.width = width;
+        this.height = height;
+    }
+    
     
     /**
      * Updates the objects position and attributes, checks logic in the game
@@ -80,7 +102,7 @@ public abstract class CoreObject {
      * Gets the x value
      * @return the x coordinate
      */
-    public int getX() {
+    public float getX() {
         return x;
     }
 

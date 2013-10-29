@@ -34,6 +34,7 @@ import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Audio;
 import com.blp.nova.libs.Identities;
 import com.blp.nova.libs.Reference;
+import com.blp.nova.objects.Block;
 import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.AudioPlayer;
 import com.blp.nova.utils.ResourceLoader;
@@ -143,8 +144,12 @@ public class Game extends Canvas implements Runnable {
         this.addMouseListener(mouse); //adds a listener to listen for clicking of mouse buttons
         this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
         
-
-        Controller.addObject(new Player(100,100, Identities.PLAYER, tex));
+        int x = 0;
+        for(int k = 1; k <= 20; k++){
+            Controller.addObject(new Block(x, HEIGHT - 64, 32, 32, Identities.BLOCK_STONE, tex, tex.blockStone));
+            x+=32;
+        }
+        Controller.addObject(new Player(100,100, 30, 70, Identities.PLAYER, tex));
         this.addKeyListener(new KeyInput());
         
         AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music
