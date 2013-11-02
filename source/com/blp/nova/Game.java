@@ -28,7 +28,7 @@ import javax.swing.JFrame;
 import com.blp.nova.entity.Player;
 import com.blp.nova.enums.GameState;
 import com.blp.nova.gfx.Renderer;
-import com.blp.nova.gfx.Texture;
+import com.blp.nova.gfx.Textures;
 import com.blp.nova.input.KeyInput;
 import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Audio;
@@ -101,7 +101,7 @@ public class Game extends Canvas implements Runnable {
     private Renderer gfx;  //an object of our renderer class
     private Menu menu;  //our menu object
     private Controller controller = new Controller(); //control all of our game objects
-    private Texture tex;
+    private Textures tex;
     
     /**
      * Used to access the Game class <i>non-static members</i>
@@ -137,7 +137,7 @@ public class Game extends Canvas implements Runnable {
         ResourceLoader.loadImages();  //Loads our images and sprites
         ResourceLoader.loadFonts();  //Loads our fonts
         ResourceLoader.loadSounds(); //Loads our sounds
-        tex = new Texture();
+        tex = new Textures();
         menu = new Menu();  //creates our menu
         gfx = new Renderer();  //initializes our renderer
         MouseInput mouse = new MouseInput();  //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
@@ -146,10 +146,13 @@ public class Game extends Canvas implements Runnable {
         
         int x = 0;
         for(int k = 1; k <= 20; k++){
-            Controller.addObject(new Block(x, HEIGHT - 64, 32, 32, Identities.BLOCK_STONE, tex, tex.blockStone));
+            Controller.addObject(new Block(x, HEIGHT - 64, Identities.BLOCK_STONE, tex, tex.blockStone));
             x+=32;
         }
-        Controller.addObject(new Player(100,100, 30, 70, Identities.PLAYER, tex));
+        Controller.addObject(new Block(400, HEIGHT - 128, Identities.BLOCK_METAL, tex, tex.blockMetal));
+        Controller.addObject(new Block(400, HEIGHT - (128+32), Identities.BLOCK_METAL, tex, tex.blockMetal));
+        Controller.addObject(new Block(300, HEIGHT - 300, Identities.BLOCK_METAL, tex, tex.blockMetal));
+        Controller.addObject(new Player(100,HEIGHT - 220, Identities.PLAYER, tex));
         this.addKeyListener(new KeyInput());
         
         AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music

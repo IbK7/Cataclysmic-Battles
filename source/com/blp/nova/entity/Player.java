@@ -16,13 +16,11 @@ package com.blp.nova.entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import com.blp.nova.Controller;
 import com.blp.nova.core.CoreObject;
-import com.blp.nova.gfx.Texture;
-import com.blp.nova.libs.Identities;
+import com.blp.nova.gfx.Textures;
 import com.blp.nova.objects.Block;
 
 /**
@@ -39,12 +37,10 @@ public class Player extends CoreObject {
      * convenience list to hold the data of <code>Controller.getObjects()</code>
      */
     private static ArrayList<CoreObject> blocks = Controller.getObjects();
-    /**
-     * convenience block to help when checking collision
-     */
-    private Block block;
+
     /**
      * Normally, I would recommend a float, but since we are using integers, this will be fine
+     * <br>This is the amount that will be added to the velY when falling
      */
     private int gravity = 1;
     /**
@@ -66,8 +62,9 @@ public class Player extends CoreObject {
      * @param id the ID of the player
      * @param tex the <code>Texture</code> object
      */
-    public Player(int x, int y, int width, int height, int id, Texture tex) {
-        super(x, y, width, height, id, tex);
+    public Player(int x, int y, int id, Textures tex) {
+        super(x, y, id, tex);
+        this.setSize(32, 70);
         
     }
 
@@ -95,12 +92,23 @@ public class Player extends CoreObject {
     private void checkCollision(){
         
         for(CoreObject obj : blocks){
-            if(obj.getId() == Identities.BLOCK_STONE){
-                block = (Block) obj;
-                if(getBottomBounds().intersects(block.getTopBounds())){   //collision between bottom of player and top of block
-                    velY = 0;
-                    y = block.getY() - height;
-                    jumping = false;
+            if(obj instanceof Block){  //do this stuff if the object is a Block
+                if(getBottomBounds().intersects(obj.getTopBounds())){   //collision between bottom of player and top of block
+                    velY = 0; //stop trying to fall
+                    y = obj.getY() - height;  //sets our y to the top of the block
+                    jumping = false; //we can jump again
+                }
+                if(getTopBounds().intersects(obj.getBottomBounds())){   //collision between top of player and bottom of block
+                    fall(); //hang for a split second, then fall (velY = -velY for an immediate fall)
+                    y = obj.getY() + obj.getHeight();  //we need to stop being inside the block so we can fall
+                }
+                if(getRightBounds().intersects(obj.getLeftBounds())){   //collision between right of player and left of block
+                    velX = 0; //stop trying to move
+                    x = obj.getX() - width; //set our x to the edge of the block
+                }
+                if(getLeftBounds().intersects(obj.getRightBounds())){   //collision between left of player and right of block
+                    velX = 0; //stop trying to move
+                    x = obj.getX() + obj.getWidth(); //set our x to the edge of the block
                 }
             }
         }
@@ -112,16 +120,11 @@ public class Player extends CoreObject {
      */
     public void fall(){
         if(falling)
-            velY += gravity;
+            velY += gravity;  //gravity is acceleration due to a magnetic pull (gravitational pull)
+                              //Earth's gravity is 9.8 m/s^2, but its still a form of acceleration, which is the change in VELOCITY over time
+                              //that is why add the gravity to the velocity of y, rather than y itself, this also makes it gradually fall faster
     }
     
-    /**
-     * Gets the lower bounds of the player
-     * @return a rectangle representing the lower bounds
-     */
-    public Rectangle getBottomBounds(){
-        return new Rectangle(x,y + (height/2), 30, height/2);
-    }
 
     /**
      * @return true if the player is jumping

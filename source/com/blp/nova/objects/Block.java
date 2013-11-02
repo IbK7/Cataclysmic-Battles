@@ -15,11 +15,10 @@
 package com.blp.nova.objects;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.blp.nova.core.CoreObject;
-import com.blp.nova.gfx.Texture;
+import com.blp.nova.gfx.Textures;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
@@ -30,29 +29,27 @@ import com.blp.nova.gfx.Texture;
  *
  */
 public class Block extends CoreObject {
-
-
+    /**
+     * Blocks have different textures!
+     */
     private BufferedImage image;
-    public Block(int x, int y, int width, int height, int id, Texture tex, BufferedImage image) {
-        super(x, y, width, height, id, tex);
+    
+    public Block(int x, int y, int id, Textures tex, BufferedImage image) {
+        super(x, y, id, tex);
         this.image = image;
+        this.setSize(32, 32);
         
     }
     
-    
-
     @Override
-    public void tick() {
-    }
+    public void tick() {}
 
     @Override
     public void render(Graphics g) {
         g.drawImage(image, x, y, null);
     }
     
-    public Rectangle getTopBounds(){
-        return new Rectangle(x, y, width, height/2);
-    }
+
     
     
     

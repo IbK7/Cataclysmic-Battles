@@ -15,8 +15,9 @@
 package com.blp.nova.core;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
-import com.blp.nova.gfx.Texture;
+import com.blp.nova.gfx.Textures;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
@@ -50,42 +51,34 @@ public abstract class CoreObject {
      * The ID of the object, used to obtain the object in an array
      */
     protected int id;
-    
+    /**
+     * The width of the object, used with collision
+     */
     protected int width;
+    /**
+     * The height of the object, used with collision
+     */
     protected int height;
-    
-    protected Texture tex;
+    /**
+     * An object that contains the game's textures
+     */
+    protected Textures tex;
     
     /**
      * Creates a new object, however because this is an abstract class, you must make a core object equal a <strong>sub type!</strong>
      * @param x the x coordinate of the object on screen
      * @param y the y coordinate of the object on screen
      * @param id the ID of the object
+     * @param tex the Textures object that contains the images or textures of the entities and objects
      */
-    public CoreObject(int x, int y, int id, Texture tex){
+    public CoreObject(int x, int y, int id, Textures tex){
         this.x = x;
         this.y = y;
         this.id = id;
         this.tex = tex;
-        width = 32;
-        height = 32;
     }
     
-    
-    /**
-     * Creates a new object, however because this is an abstract class, you must make a core object equal a <strong>sub type!</strong>
-     * @param x the x coordinate of the object on screen
-     * @param y the y coordinate of the object on screen
-     * @param id the ID of the object
-     */
-    public CoreObject(int x, int y, int width, int height, int id, Texture tex){
-        this.x = x;
-        this.y = y;
-        this.id = id;
-        this.tex = tex;
-        this.width = width;
-        this.height = height;
-    }
+
     
     
     /**
@@ -97,12 +90,46 @@ public abstract class CoreObject {
      * @param g the <code>Graphics</code> context
      */
     public abstract void render(Graphics g);
+    
+    /**
+     * Gets the upper bounds of the object
+     * @return a rectangle representing the upper bounds
+     */
+    public Rectangle getTopBounds(){
+        return new Rectangle(x, y, width, 12);
+    }
+    
+    /**
+     * Gets the lower bounds of the object
+     * @return a rectangle representing the lower bounds
+     */
+    public Rectangle getBottomBounds(){
+        return new Rectangle(x, y + (height - 6), width, 12);
+    }
+    
+    /**
+     * Gets the right bounds of the object
+     * @return a rectangle representing the right bounds
+     */
+    public Rectangle getRightBounds(){
+        return new Rectangle(x + (width - 6), y, 6, height);
+    }
+    
+    /**
+     * Gets the left bounds of the object
+     * @return a rectangle representing the left bounds
+     */
+    public Rectangle getLeftBounds(){
+        return new Rectangle(x, y, 6, height);
+    }
+    
+    
 
     /**
      * Gets the x value
      * @return the x coordinate
      */
-    public float getX() {
+    public int getX() {
         return x;
     }
 
@@ -149,6 +176,49 @@ public abstract class CoreObject {
      */
     public void setVelY(int velY) {
         this.velY = velY;
+    }
+
+
+
+
+    /**
+     * @return the width of the object
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * @param width the width to set
+     */
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+
+
+
+    /**
+     * @return the height of the object
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * @param height the height to set
+     */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    
+    /**
+     * @param width the width to set
+     * @param height the height to set
+     */
+    public void setSize(int width, int height){
+        this.width = width;
+        this.height = height;
     }
     
 

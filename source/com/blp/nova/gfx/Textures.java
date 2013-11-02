@@ -27,14 +27,14 @@ import com.blp.nova.utils.SpriteSheet;
  * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
-public class Texture {
+public class Textures {
     
     private SpriteSheet sheetTest;
     
     public BufferedImage blockStone;
     public BufferedImage blockMetal;
     
-    public Texture(){
+    public Textures(){
         sheetTest = new SpriteSheet(Images.spritesheetTest, 32);
         
         
