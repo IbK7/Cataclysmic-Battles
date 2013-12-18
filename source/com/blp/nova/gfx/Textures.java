@@ -29,21 +29,38 @@ import com.blp.nova.utils.SpriteSheet;
  */
 public class Textures {
     
-    private SpriteSheet sheetTest;
+    private SpriteSheet blockSheet;
+    private SpriteSheet playerSheet;
+    
+    public BufferedImage player;
+    public BufferedImage playerRight[] = new BufferedImage[4];
     
     public BufferedImage blockStone;
     public BufferedImage blockMetal;
     
+    /**
+     * Constructs the texture container
+     */
     public Textures(){
-        sheetTest = new SpriteSheet(Images.spritesheetTest, 32);
-        
+        blockSheet = new SpriteSheet(Images.spritesheetBlocks, 32);
+        playerSheet = new SpriteSheet(Images.spritesheetPlayer, 32, 70);
         
         initTextures();
     }
     
+    /**
+     * Initializes all the different textures
+     */
     private void initTextures(){
-        blockStone = sheetTest.getSprite(1, 1);
-        blockMetal = sheetTest.getSprite(2, 1);
+        blockStone = blockSheet.getSprite(1, 1);
+        blockMetal = blockSheet.getSprite(2, 1);
+        
+        player = playerSheet.getSprite(12, 1);
+        
+        playerRight[0] = playerSheet.getSprite(8, 1);
+        playerRight[1] = playerSheet.getSprite(9, 1);
+        playerRight[2] = playerSheet.getSprite(10, 1);
+        playerRight[3] = playerSheet.getSprite(11, 1);
     }
 
 }

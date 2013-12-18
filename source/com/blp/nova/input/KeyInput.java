@@ -72,6 +72,7 @@ public class KeyInput extends KeyAdapter {
                 }
                 if(key == KeyEvent.VK_D){
                     player.setVelX(5);
+                    player.setMoving(true);
                     keyDown[1] = true;
                 }
                 break;
@@ -98,8 +99,10 @@ public class KeyInput extends KeyAdapter {
             case GAME:
                 if(key == KeyEvent.VK_A)
                     keyDown[0] = false;  //if you only set the velocity here, it will freeze for a bit if you try to switch to D too quickly
-                if(key == KeyEvent.VK_D)
+                if(key == KeyEvent.VK_D){
                     keyDown[1] = false;
+                    player.setMoving(false);
+                }
                 if(keyDown[0] && !keyDown[1])  //Do this if our A is still pushed
                     player.setVelX(-5);
                 if(!keyDown[0] && keyDown[1])  //If D is still pushed

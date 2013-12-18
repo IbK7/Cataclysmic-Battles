@@ -35,7 +35,8 @@ public class Images {
     /*
      * Sprite sheets
      */
-    public static BufferedImage spritesheetTest;
+    public static BufferedImage spritesheetBlocks;
+    public static BufferedImage spritesheetPlayer;
     
     
 

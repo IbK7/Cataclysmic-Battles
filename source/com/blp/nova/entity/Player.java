@@ -14,12 +14,12 @@
 */
 package com.blp.nova.entity;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
 import com.blp.nova.Game;
 import com.blp.nova.core.CoreObject;
+import com.blp.nova.gfx.Animation;
 import com.blp.nova.gfx.Textures;
 import com.blp.nova.objects.Block;
 
@@ -51,6 +51,17 @@ public class Player extends CoreObject {
      * by default, the player is not jumping, duh
      */
     private boolean jumping = false;
+    /**
+     * by default, the player is not moving, duh
+     * <br>Used to determine when the player should be animating
+     */
+    private boolean moving = false;
+    
+    /**
+     * the animation set for when the player is moving right
+     */
+    private Animation animeRight;
+    
     
 
     /**
@@ -65,7 +76,7 @@ public class Player extends CoreObject {
     public Player(float x, float y, int id, Textures tex) {
         super(x, y, id, tex);
         this.setSize(32, 70);
-        
+        animeRight = new Animation(3, tex.playerRight);
     }
 
     @Override
@@ -78,12 +89,18 @@ public class Player extends CoreObject {
         
         fall();  //fall first, then check collision
         checkCollision();
+        if(moving)
+            animeRight.runAnimation();
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillRect((int)x, (int)y, width, height);
+        if(!moving){
+            g.drawImage(tex.player, (int)x, (int)y, null);
+        }
+        else{
+            animeRight.drawAnimation(g, x, y);
+        }
     }
     
     /**
@@ -138,6 +155,20 @@ public class Player extends CoreObject {
      */
     public void setJumping(boolean jumping) {
         this.jumping = jumping;
+    }
+
+    /**
+     * @return true if the player moving
+     */
+    public boolean isMoving() {
+        return moving;
+    }
+
+    /**
+     * @param moving : is the player moving?
+     */
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
     
 

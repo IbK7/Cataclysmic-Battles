@@ -39,7 +39,8 @@ public class ResourceLoader {
         
         try{
             Images.title = imageLoader.loadImage("title.png");
-            Images.spritesheetTest = imageLoader.loadImage("blocks32.png");
+            Images.spritesheetBlocks = imageLoader.loadImage("blocks32.png");
+            Images.spritesheetPlayer = imageLoader.loadImage("female.png");
         } catch(IOException e){
             e.printStackTrace();  //We need to know why we crashed!
         }
