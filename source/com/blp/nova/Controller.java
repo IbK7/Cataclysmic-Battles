@@ -29,7 +29,7 @@ import com.blp.nova.core.CoreObject;
  */
 public class Controller {
 
-    private static ArrayList<CoreObject> objects = new ArrayList<CoreObject>();
+    private ArrayList<CoreObject> objects = new ArrayList<CoreObject>();
 
     /**
      * Runs the ticking operations for all the objects in the <code>ArrayList</code>
@@ -53,7 +53,7 @@ public class Controller {
      * Adds a new <code>CoreObject</code> to the <code>ArrayList</code>
      * @param instance a <code>CoreObject</code> instance
      */
-    public static void addObject(CoreObject instance){
+    public void addObject(CoreObject instance){
         objects.add(instance);
     }
     
@@ -62,7 +62,7 @@ public class Controller {
      * Removes a <code>CoreObject</code> to the <code>ArrayList</code>
      * @param instance a <code>CoreObject</code> instance
      */
-    public static void removeObject(CoreObject instance){
+    public void removeObject(CoreObject instance){
         objects.remove(instance);
     }
 
@@ -71,7 +71,7 @@ public class Controller {
      * Retrieves the <code>ArrayList</code> of <code>CoreObjects</code>
      * @return the <code>CoreObject</code> list
      */
-    public static ArrayList<CoreObject> getObjects(){
+    public ArrayList<CoreObject> getObjects(){
         return objects;
     }
 }

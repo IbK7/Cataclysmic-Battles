@@ -18,7 +18,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import com.blp.nova.Controller;
+import com.blp.nova.Game;
 import com.blp.nova.core.CoreObject;
 import com.blp.nova.gfx.Textures;
 import com.blp.nova.objects.Block;
@@ -36,13 +36,13 @@ public class Player extends CoreObject {
     /**
      * convenience list to hold the data of <code>Controller.getObjects()</code>
      */
-    private static ArrayList<CoreObject> blocks = Controller.getObjects();
+    private static ArrayList<CoreObject> gameObjects = Game.getInstance().getController().getObjects();
 
     /**
      * Normally, I would recommend a float, but since we are using integers, this will be fine
      * <br>This is the amount that will be added to the velY when falling
      */
-    private int gravity = 1;
+    private float gravity = 0.55f;
     /**
      * Make sure the player is always trying to fall
      */
@@ -62,7 +62,7 @@ public class Player extends CoreObject {
      * @param id the ID of the player
      * @param tex the <code>Texture</code> object
      */
-    public Player(int x, int y, int id, Textures tex) {
+    public Player(float x, float y, int id, Textures tex) {
         super(x, y, id, tex);
         this.setSize(32, 70);
         
@@ -83,7 +83,7 @@ public class Player extends CoreObject {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(x, y, width, height);
+        g.fillRect((int)x, (int)y, width, height);
     }
     
     /**
@@ -91,7 +91,7 @@ public class Player extends CoreObject {
      */
     private void checkCollision(){
         
-        for(CoreObject obj : blocks){
+        for(CoreObject obj : gameObjects){
             if(obj instanceof Block){  //do this stuff if the object is a Block
                 if(getBottomBounds().intersects(obj.getTopBounds())){   //collision between bottom of player and top of block
                     velY = 0; //stop trying to fall

@@ -16,6 +16,7 @@ package com.blp.nova.core;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 import com.blp.nova.gfx.Textures;
 
@@ -32,20 +33,20 @@ public abstract class CoreObject {
     /**
      * The x coordinate of the object on screen
      */
-    protected int x;
+    protected float x;
     /**
      * The y coordinate of the object on screen
      */
-    protected int y;
+    protected float y;
     
     /**
      * The velocity at which the object moves horizontally
      */
-    protected int velX;
+    protected float velX;
     /**
      * The velocity at which the object moves vertically
      */
-    protected int velY;
+    protected float velY;
     
     /**
      * The ID of the object, used to obtain the object in an array
@@ -63,6 +64,7 @@ public abstract class CoreObject {
      * An object that contains the game's textures
      */
     protected Textures tex;
+    protected BufferedImage image;
     
     /**
      * Creates a new object, however because this is an abstract class, you must make a core object equal a <strong>sub type!</strong>
@@ -71,11 +73,25 @@ public abstract class CoreObject {
      * @param id the ID of the object
      * @param tex the Textures object that contains the images or textures of the entities and objects
      */
-    public CoreObject(int x, int y, int id, Textures tex){
+    public CoreObject(float x, float y, int id, Textures tex){
         this.x = x;
         this.y = y;
         this.id = id;
         this.tex = tex;
+    }
+    
+    /**
+     * Creates a new object, however because this is an abstract class, you must make a core object equal a <strong>sub type!</strong>
+     * @param x the x coordinate of the object on screen
+     * @param y the y coordinate of the object on screen
+     * @param id the ID of the object
+     * @param image the BufferedImage of the object
+     */
+    public CoreObject(float x, float y, int id, BufferedImage image){
+        this.x = x;
+        this.y = y;
+        this.id = id;
+        this.image = image;
     }
     
 
@@ -96,7 +112,7 @@ public abstract class CoreObject {
      * @return a rectangle representing the upper bounds
      */
     public Rectangle getTopBounds(){
-        return new Rectangle(x, y, width, 12);
+        return new Rectangle((int)x, (int)y, width, 12);
     }
     
     /**
@@ -104,7 +120,7 @@ public abstract class CoreObject {
      * @return a rectangle representing the lower bounds
      */
     public Rectangle getBottomBounds(){
-        return new Rectangle(x, y + (height - 6), width, 12);
+        return new Rectangle((int)x, (int)y + (height - 6), width, 12);
     }
     
     /**
@@ -112,7 +128,7 @@ public abstract class CoreObject {
      * @return a rectangle representing the right bounds
      */
     public Rectangle getRightBounds(){
-        return new Rectangle(x + (width - 6), y, 6, height);
+        return new Rectangle((int)x + (width - 6), (int)y, 6, height);
     }
     
     /**
@@ -120,7 +136,7 @@ public abstract class CoreObject {
      * @return a rectangle representing the left bounds
      */
     public Rectangle getLeftBounds(){
-        return new Rectangle(x, y, 6, height);
+        return new Rectangle((int)x, (int)y, 6, height);
     }
     
     
@@ -129,7 +145,7 @@ public abstract class CoreObject {
      * Gets the x value
      * @return the x coordinate
      */
-    public int getX() {
+    public float getX() {
         return x;
     }
 
@@ -137,7 +153,7 @@ public abstract class CoreObject {
      * Makes the object appear in a new x position
      * @param x the x coordinate to move to
      */
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
@@ -145,7 +161,7 @@ public abstract class CoreObject {
      * Gets the y value
      * @return the y coordinate
      */
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -153,7 +169,7 @@ public abstract class CoreObject {
      * Makes the object appear in a new y position
      * @param y the y coordinate to move to
      */
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 
@@ -167,14 +183,14 @@ public abstract class CoreObject {
     /**
      * @param velX the velX to set
      */
-    public void setVelX(int velX) {
+    public void setVelX(float velX) {
         this.velX = velX;
     }
 
     /**
      * @param velY the velY to set
      */
-    public void setVelY(int velY) {
+    public void setVelY(float velY) {
         this.velY = velY;
     }
 

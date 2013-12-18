@@ -72,6 +72,8 @@ public class Renderer {
             case PAUSE:
                 break;
             default:
+                g.setColor(Color.RED);
+                g.drawString("UNKNOWN GAMESTATE", 150, 150);
                 break;
             
         }

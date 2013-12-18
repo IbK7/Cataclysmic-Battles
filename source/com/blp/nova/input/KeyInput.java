@@ -17,7 +17,6 @@ package com.blp.nova.input;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import com.blp.nova.Controller;
 import com.blp.nova.Game;
 import com.blp.nova.core.CoreObject;
 import com.blp.nova.entity.Player;
@@ -47,7 +46,7 @@ public class KeyInput extends KeyAdapter {
      * Used to initialize attributes in the <code>KeyInput</code> class
      */
     public KeyInput(){
-        for(CoreObject obj : Controller.getObjects()){    //Runs through the entire array list (for each CoreObject in the array list, do this)
+        for(CoreObject obj : Game.getInstance().getController().getObjects()){    //Runs through the entire array list (for each CoreObject in the array list, do this)
             if(obj.getId() == Identities.PLAYER)          //If the objects ID is equal to Identities.PLAYER (1) then do this
                 player = (Player) obj;                    //Sets our player attribute(above) to the object in our Controller
         }
@@ -63,7 +62,7 @@ public class KeyInput extends KeyAdapter {
         switch(Game.state){
             case GAME:
                 if(key == KeyEvent.VK_W && !player.isJumping()){
-                    player.setVelY(-23);
+                    player.setVelY(-13);
                     player.setJumping(true);
                 }
 //                    player.setVelY(-5);      //because coordinates start from bottom down(y values), we need to subtract a value to go up

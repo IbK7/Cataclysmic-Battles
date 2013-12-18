@@ -15,9 +15,7 @@
 package com.blp.nova.utils;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 
 import com.blp.nova.input.MouseInput;
@@ -34,60 +32,6 @@ import com.blp.nova.input.MouseInput;
 public class Button extends Rectangle {
     
     private String text;
-
-    /**
-     * Creates a default button/rectangle
-     */
-    public Button() {
-        super();
-    }
-
-    /**
-     * Creates a rectangle/button using data from a rectangle object
-     * @param r A rectangle object
-     */
-    public Button(Rectangle r) {
-        super(r);
-
-    }
-
-    /**
-     * Creates a rectangle from a point
-     * @param p A point object
-     */
-    public Button(Point p) {
-        super(p);
-
-    }
-
-    /**
-     * Creates a rectangle/button using a dimension
-     * @param d A dimension object
-     */
-    public Button(Dimension d) {
-        super(d);
-
-    }
-
-    /**
-     * Creates a button/rectangle with a specified width and height
-     * @param width The width of the button
-     * @param height The height of the button
-     */
-    public Button(int width, int height) {
-        super(width, height);
-
-    }
-
-    /**
-     * Creates a button/rectangle from a point using a dimension
-     * @param p A point object
-     * @param d A dimension object
-     */
-    public Button(Point p, Dimension d) {
-        super(p, d);
-
-    }
 
     /**
      * Creates a button from a specified top-left corner and a specified width and height

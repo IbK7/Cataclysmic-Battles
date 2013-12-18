@@ -18,7 +18,6 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.blp.nova.core.CoreObject;
-import com.blp.nova.gfx.Textures;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
@@ -29,13 +28,9 @@ import com.blp.nova.gfx.Textures;
  *
  */
 public class Block extends CoreObject {
-    /**
-     * Blocks have different textures!
-     */
-    private BufferedImage image;
     
-    public Block(int x, int y, int id, Textures tex, BufferedImage image) {
-        super(x, y, id, tex);
+    public Block(float x, float y, int id, BufferedImage image) {
+        super(x, y, id, image);
         this.image = image;
         this.setSize(32, 32);
         
@@ -46,7 +41,7 @@ public class Block extends CoreObject {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(image, x, y, null);
+        g.drawImage(image, (int)x, (int)y, null);
     }
     
 

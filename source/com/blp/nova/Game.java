@@ -17,13 +17,8 @@ package com.blp.nova;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.io.InvalidClassException;
-
-import javax.swing.JFrame;
 
 import com.blp.nova.entity.Player;
 import com.blp.nova.enums.GameState;
@@ -33,7 +28,6 @@ import com.blp.nova.input.KeyInput;
 import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Audio;
 import com.blp.nova.libs.Identities;
-import com.blp.nova.libs.Reference;
 import com.blp.nova.objects.Block;
 import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.AudioPlayer;
@@ -89,7 +83,6 @@ public class Game extends Canvas implements Runnable {
  */
     private static final long serialVersionUID = -1890564841829395437L;
     
-    private static JFrame frame = new JFrame();  //Our window object
     public static final int WIDTH = 640;  //The width of our window
     public static final int HEIGHT = WIDTH / 4 * 3;  //Creates a nice 4:3 ratio for our window
     public static final String TITLE = "Cataclysmic Battles";  //The title of our game
@@ -146,13 +139,13 @@ public class Game extends Canvas implements Runnable {
         
         int x = 0;
         for(int k = 1; k <= 20; k++){
-            Controller.addObject(new Block(x, HEIGHT - 64, Identities.BLOCK_STONE, tex, tex.blockStone));
+            controller.addObject(new Block(x, HEIGHT - 64, Identities.BLOCK_STONE, tex.blockStone));
             x+=32;
         }
-        Controller.addObject(new Block(400, HEIGHT - 128, Identities.BLOCK_METAL, tex, tex.blockMetal));
-        Controller.addObject(new Block(400, HEIGHT - (128+32), Identities.BLOCK_METAL, tex, tex.blockMetal));
-        Controller.addObject(new Block(300, HEIGHT - 300, Identities.BLOCK_METAL, tex, tex.blockMetal));
-        Controller.addObject(new Player(100,HEIGHT - 220, Identities.PLAYER, tex));
+        controller.addObject(new Block(400, HEIGHT - 128, Identities.BLOCK_METAL, tex.blockMetal));
+        controller.addObject(new Block(400, HEIGHT - (128+32), Identities.BLOCK_METAL, tex.blockMetal));
+        controller.addObject(new Block(300, HEIGHT - 300, Identities.BLOCK_METAL, tex.blockMetal));
+        controller.addObject(new Player(100,HEIGHT - 220, Identities.PLAYER, tex));
         this.addKeyListener(new KeyInput());
         
         AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music
@@ -230,7 +223,7 @@ public class Game extends Canvas implements Runnable {
             if (System.currentTimeMillis() - timer > 1000) {  //We are going to print our frames and ticks to the console every second
                 timer += 1000;  //Time must go on!
                 System.out.println(ticks + " Ticks, FPS: " + frames);  //Prints the TPS and FPS to the console
-//                frame.setTitle(TITLE + "        Ticks: " + ticks + "    FPS: " + frames);   //Use this if you have your frame as a class attribute and wish to have the FPS and TPS in your title bar
+                Window.setTitle(TITLE + "      FPS: " + frames);
                 ticks = 0;  //If we did not do these 2 lines, we would have 10000000000000000000 ticks and fps at one point, then another 10000000000000000000000000000000000000000 the next second
                 frames = 0;
             }
@@ -239,22 +232,10 @@ public class Game extends Canvas implements Runnable {
     }
 
     public static void main(String args[]) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image icon = toolkit.getImage(Reference.RESOURCE_LOCATION + "icon3.png");  //This is the image we will be using as our window's icon
-        Image cursor = toolkit.getImage(Reference.RESOURCE_LOCATION + "cursor.gif");
-        frame.add(game);  //adds our game as a component to the frame
-        frame.setTitle(TITLE); //sets the title
-        frame.setIconImage(icon); //sets the icon we specified above
-        frame.setCursor(toolkit.createCustomCursor(cursor, new Point(frame.getX(), frame.getY()), "cursor"));
-        frame.setSize(WIDTH, HEIGHT); //sets the size of our window
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //makes it so that when we click the red X (on windows, red circle i guess for macs) we then exit the game
-        frame.setFocusable(true); //This way we are able to use keyboards and our mouse and all that good stuff
-        frame.setLocationRelativeTo(null); //makes our frame start in the center of our screen
-        frame.setResizable(false); //for now, if we resize our window, we will get a lot of bugs with the graphics
-        frame.setVisible(true); //This actually shows the frame/window
-        frame.pack(); //packs all our components and settings into one nice frame package (metaphorical of course)
+        Window.initWindow(TITLE);
+        Window.addGame(game);
+        Window.createWindow();
         game.start(); //starts the game
-
     }
 
     /**
