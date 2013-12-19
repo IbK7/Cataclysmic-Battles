@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import com.blp.nova.Game;
 import com.blp.nova.core.CoreObject;
+import com.blp.nova.enums.Direction;
 import com.blp.nova.gfx.Animation;
 import com.blp.nova.gfx.Textures;
 import com.blp.nova.objects.Block;
@@ -61,6 +62,15 @@ public class Player extends CoreObject {
      * the animation set for when the player is moving right
      */
     private Animation animeRight;
+    /**
+     * the animation set for when the player is moving left
+     */
+    private Animation animeLeft;
+    
+    /**
+     * used to control which sprites are being used
+     */
+    private Direction direction = Direction.LEFT;
     
     
 
@@ -77,6 +87,7 @@ public class Player extends CoreObject {
         super(x, y, id, tex);
         this.setSize(32, 70);
         animeRight = new Animation(3, tex.playerRight);
+        animeLeft = new Animation(3, tex.playerLeft);
     }
 
     @Override
@@ -89,17 +100,31 @@ public class Player extends CoreObject {
         
         fall();  //fall first, then check collision
         checkCollision();
-        if(moving)
-            animeRight.runAnimation();
+        if(moving){
+            if(direction == Direction.RIGHT)
+                animeRight.runAnimation();
+            else if(direction == Direction.LEFT)
+                animeLeft.runAnimation();
+        }
     }
 
     @Override
+    /**
+     * draws the player onto the screen
+     * @param g the graphics context
+     */
     public void render(Graphics g) {
         if(!moving){
-            g.drawImage(tex.player, (int)x, (int)y, null);
+            if(direction == Direction.RIGHT)
+                g.drawImage(tex.playerStandingRight, (int)x, (int)y, null);
+            else if(direction == Direction.LEFT)
+                g.drawImage(tex.playerStandingLeft, (int)x, (int)y, null);
         }
         else{
-            animeRight.drawAnimation(g, x, y);
+            if(direction == Direction.RIGHT)
+                animeRight.drawAnimation(g, x, y);
+            else if(direction == Direction.LEFT)
+                animeLeft.drawAnimation(g, x, y);
         }
     }
     
@@ -169,6 +194,21 @@ public class Player extends CoreObject {
      */
     public void setMoving(boolean moving) {
         this.moving = moving;
+    }
+    
+    /**
+     * Changes the direction the player is facing
+     * @param direction the new direction to set
+     */
+    public void setDirection(Direction direction){
+        this.direction = direction;
+    }
+    
+    /**
+     * @return the current direction the player is facing
+     */
+    public Direction getDirection(){
+        return direction;
     }
     
 

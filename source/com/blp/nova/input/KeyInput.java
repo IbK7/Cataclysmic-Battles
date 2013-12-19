@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import com.blp.nova.Game;
 import com.blp.nova.core.CoreObject;
 import com.blp.nova.entity.Player;
+import com.blp.nova.enums.Direction;
 import com.blp.nova.libs.Identities;
 
 /**
@@ -68,11 +69,14 @@ public class KeyInput extends KeyAdapter {
 //                    player.setVelY(-5);      //because coordinates start from bottom down(y values), we need to subtract a value to go up
                 if(key == KeyEvent.VK_A){
                     player.setVelX(-5);
+                    player.setMoving(true);  //used to make the player start the animation process
+                    player.setDirection(Direction.LEFT);  //makes the player switch to the left facing sprites
                     keyDown[0] = true;  //set the booleans to true!
                 }
                 if(key == KeyEvent.VK_D){
                     player.setVelX(5);
                     player.setMoving(true);
+                    player.setDirection(Direction.RIGHT);  //makes the player switch to the right facing sprites
                     keyDown[1] = true;
                 }
                 break;
@@ -97,8 +101,10 @@ public class KeyInput extends KeyAdapter {
         
         switch(Game.state){
             case GAME:
-                if(key == KeyEvent.VK_A)
+                if(key == KeyEvent.VK_A){
                     keyDown[0] = false;  //if you only set the velocity here, it will freeze for a bit if you try to switch to D too quickly
+                    player.setMoving(false); //used to make the player stop animating
+                }
                 if(key == KeyEvent.VK_D){
                     keyDown[1] = false;
                     player.setMoving(false);
