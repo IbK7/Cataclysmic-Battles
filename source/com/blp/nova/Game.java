@@ -28,10 +28,10 @@ import com.blp.nova.input.KeyInput;
 import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Audio;
 import com.blp.nova.libs.Identities;
-import com.blp.nova.objects.Block;
 import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.AudioPlayer;
 import com.blp.nova.utils.ResourceLoader;
+import com.blp.nova.world.Level;
 
 
 /**
@@ -94,7 +94,8 @@ public class Game extends Canvas implements Runnable {
     private Renderer gfx;  //an object of our renderer class
     private Menu menu;  //our menu object
     private Controller controller = new Controller(); //control all of our game objects
-    private Textures tex;
+    private Textures tex;  //handles our textures
+    public Level levelOne;
     
     /**
      * Used to access the Game class <i>non-static members</i>
@@ -119,6 +120,9 @@ public class Game extends Canvas implements Runnable {
         return controller;
     }
     
+    public Textures getTextureHandler(){
+        return tex;
+    }
 
 
     /**
@@ -136,15 +140,8 @@ public class Game extends Canvas implements Runnable {
         MouseInput mouse = new MouseInput();  //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
         this.addMouseListener(mouse); //adds a listener to listen for clicking of mouse buttons
         this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
+        levelOne = new Level(1);
         
-        int x = 0;
-        for(int k = 1; k <= 20; k++){
-            controller.addObject(new Block(x, HEIGHT - 64, Identities.BLOCK_STONE, tex.blockStone));
-            x+=32;
-        }
-        controller.addObject(new Block(400, HEIGHT - 128, Identities.BLOCK_METAL, tex.blockMetal));
-        controller.addObject(new Block(400, HEIGHT - (128+32), Identities.BLOCK_METAL, tex.blockMetal));
-        controller.addObject(new Block(300, HEIGHT - 300, Identities.BLOCK_METAL, tex.blockMetal));
         controller.addObject(new Player(100,HEIGHT - 220, Identities.PLAYER, tex));
         this.addKeyListener(new KeyInput());
         

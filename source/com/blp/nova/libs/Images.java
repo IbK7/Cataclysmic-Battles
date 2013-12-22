@@ -38,6 +38,12 @@ public class Images {
     public static BufferedImage spritesheetBlocks;
     public static BufferedImage spritesheetPlayer;
     
+    /*
+     * Levels
+     */
+    public static BufferedImage levelOne;
+    
+    
     
 
 }

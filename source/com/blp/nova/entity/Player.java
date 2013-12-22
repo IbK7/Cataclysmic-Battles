@@ -40,7 +40,7 @@ public class Player extends CoreObject {
     private static ArrayList<CoreObject> gameObjects = Game.getInstance().getController().getObjects();
 
     /**
-     * Normally, I would recommend a float, but since we are using integers, this will be fine
+     * this is used to control the gravety in the game, and how fast the player will fall
      * <br>This is the amount that will be added to the velY when falling
      */
     private float gravity = 0.55f;

@@ -68,6 +68,7 @@ public class MouseInput extends MouseAdapter {
                 case MENU:
                     if (rect.intersects(menu.play)) { //Example, if we click our menu's play button, change the state to GAME
                         AudioPlayer.playSound(Audio.SOUND_LASER); //make sure you play your sound before changing the game's state
+                        Game.getInstance().levelOne.loadLevel();
                         Game.state = GameState.GAME;
                     } else if (rect.intersects(menu.options)) {
                         AudioPlayer.playSound(Audio.SOUND_LASER);

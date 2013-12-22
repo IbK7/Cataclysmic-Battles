@@ -43,7 +43,7 @@ public class Window {
     
     public static void createWindow(){
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image icon = toolkit.getImage(Reference.RESOURCE_LOCATION + "icon3.png");  //This is the image we will be using as our window's icon
+        Image icon = toolkit.getImage(Reference.RESOURCE_LOCATION + "icon.png");  //This is the image we will be using as our window's icon
         Image cursor = toolkit.getImage(Reference.RESOURCE_LOCATION + "cursor.gif");
         frame.setIconImage(icon); //sets the icon we specified above
         frame.setCursor(toolkit.createCustomCursor(cursor, new Point(frame.getX(), frame.getY()), "cursor"));
