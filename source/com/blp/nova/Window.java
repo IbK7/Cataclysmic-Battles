@@ -17,6 +17,8 @@ package com.blp.nova;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
@@ -33,10 +35,18 @@ import com.blp.nova.libs.Reference;
 public class Window {
     private static JFrame frame;
     
+    /**
+     * Initiazlizes the window with a given title
+     * @param title
+     */
     public static void initWindow(String title){
         frame = new JFrame(title);
     }
     
+    /**
+     * Adds a new game to the window
+     * @param game the game to be added
+     */
     public static void addGame(Game game){
         frame.add(game);
     }
@@ -48,7 +58,15 @@ public class Window {
         frame.setIconImage(icon); //sets the icon we specified above
         frame.setCursor(toolkit.createCustomCursor(cursor, new Point(frame.getX(), frame.getY()), "cursor"));
         frame.setSize(Game.WIDTH, Game.HEIGHT); //sets the size of our window
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //makes it so that when we click the red X (on windows, red circle i guess for macs) we then exit the game
+        
+        frame.addWindowListener(                                 //adds a listener that we can use to exit the game
+                new WindowAdapter(){                             //annonomous inner class
+                    public void windowClosing(WindowEvent e){    //annonomous inner method that is called when the red X is pressed
+                        Game.exit();
+                    }
+                }
+                );
+        
         frame.setFocusable(true); //This way we are able to use keyboards and our mouse and all that good stuff
         frame.setLocationRelativeTo(null); //makes our frame start in the center of our screen
         frame.setResizable(false); //for now, if we resize our window, we will get a lot of bugs with the graphics
@@ -56,6 +74,10 @@ public class Window {
         frame.pack(); //packs all our components and settings into one nice frame package (metaphorical of course)
     }
     
+    /**
+     * Sets the title of the game
+     * @param title the title to be given to the game
+     */
     public static void setTitle(String title){
         frame.setTitle(title);
     }

@@ -17,8 +17,11 @@ package com.blp.nova;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.io.InvalidClassException;
+
+import org.lwjgl.openal.AL;
 
 import com.blp.nova.entity.Player;
 import com.blp.nova.enums.GameState;
@@ -82,8 +85,8 @@ public class Game extends Canvas implements Runnable {
  * serialVersionUID values is waived for array classes.
  */
     private static final long serialVersionUID = -1890564841829395437L;
-    
-    public static final int WIDTH = 640;  //The width of our window
+
+    public static final int WIDTH = 640;
     public static final int HEIGHT = WIDTH / 4 * 3;  //Creates a nice 4:3 ratio for our window
     public static final String TITLE = "Cataclysmic Battles";  //The title of our game
     private static Game game = new Game();  //The instance of our game that we will be using
@@ -92,13 +95,14 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;  //by default, we need this to be false so we do not exit our start method right away
     private Thread thread;  //the thread that will control our game loop
     private Renderer gfx;  //an object of our renderer class
+    private Camera camera;
     private Menu menu;  //our menu object
     private Controller controller = new Controller(); //control all of our game objects
     private Textures tex;  //handles our textures
-    public Level levelOne;
+    public Level levelOne;  //temporary location
     
     /**
-     * Used to access the Game class <i>non-static members</i>
+     * Used to access the Game class <i>non-static</i> members
      * @return the instance of the game
      */
     public static Game getInstance(){
@@ -120,6 +124,9 @@ public class Game extends Canvas implements Runnable {
         return controller;
     }
     
+    /**
+     * @return the <strong>Textures</strong> that handles all the textures in the game
+     */
     public Textures getTextureHandler(){
         return tex;
     }
@@ -143,6 +150,7 @@ public class Game extends Canvas implements Runnable {
         levelOne = new Level(1);
         
         controller.addObject(new Player(100,HEIGHT - 220, Identities.PLAYER, tex));
+        camera = new Camera(0,0);  //this must be initialized AFTER the controller
         this.addKeyListener(new KeyInput());
         
         AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music
@@ -153,8 +161,10 @@ public class Game extends Canvas implements Runnable {
      * This also runs the <strong> <i> logic </i> </strong> in the game
      */
     public void tick() {
-        if(state == GameState.GAME)
+        if(state == GameState.GAME){
             controller.tick();
+            camera.tick();
+        }
     }
 
 
@@ -171,6 +181,7 @@ public class Game extends Canvas implements Runnable {
         }
 
         Graphics g = bs.getDrawGraphics(); //We want to use the graphics that comes from our buffer strategy
+        Graphics2D g2d = (Graphics2D) g;
         g.setColor(new Color(6, 0, 40));  
         g.fillRect(0, 0, WIDTH, HEIGHT);  //We are creating a background for our game here
 
@@ -178,7 +189,9 @@ public class Game extends Canvas implements Runnable {
         ///////////////////////////////////////////////////
 
         gfx.renderBackground(g);
+        g2d.translate(camera.getX(), camera.getY()); //do this before the foreground and after the background
         gfx.renderForeground(g);
+        g2d.translate(-camera.getX(), -camera.getY());  //do this after the foreground
         
         ///////////////////////////////////////////////////
         
@@ -190,7 +203,7 @@ public class Game extends Canvas implements Runnable {
 
     @Override
     /**
-     * This is our main <strong> <i> game loop </strong> </i> that we are able to use thanks to the <strong> Runnable Interface </strong>
+     * This is our main <strong><i>game loop</strong></i> that we are able to use thanks to the <strong>Runnable Interface</strong>
      */
     public void run() {
         init(); //Initializes our game
@@ -237,7 +250,7 @@ public class Game extends Canvas implements Runnable {
 
     /**
      * This starts the game thread
-     * <br> It is <strong> <i> synchronized </strong> </i> because we do not want to do anything else until this method is <strong> <i> 100% complete
+     * <br>It is <strong><i>synchronized</strong></i> because we do not want to do anything else until this method is <strong><i>100% complete</i>
      */
     private synchronized void start() {
         if (running) //if the game is already running, we do not want to run the game again
@@ -250,21 +263,31 @@ public class Game extends Canvas implements Runnable {
 
     /**
      * This stops the game thread
-     * <br> It is <strong> <i> synchronized </strong> </i> because we do not want to do anything else until this method is <strong> <i> 100% complete
+     * <br>It is <strong><i>synchronized</strong></i> because we do not want to do anything else until this method is <strong><i>100% complete</i>
      */
     private synchronized void stop() {
         if (!running)  //if the game has already stopped, why stop it again?
             return;
         else
             running = false;
-
-        try {
-            thread.join();  //a good way of closing a thread
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //it has a chance of failing, so we need to catch the exception and report it to the console
-        }
-
+        
+        cleanUp();
         System.exit(1);  //exits the game
     }
+    
+    /**
+     * Cleans up resources used by the system to avoid bugs on exit
+     */
+    private void cleanUp(){
+        AL.destroy();  //propperly closes audio devices
+    }
+    
+    /**
+     * Exits the game
+     */
+    public static void exit(){
+        game.stop();
+    }
+    
 
 }

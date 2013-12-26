@@ -106,7 +106,7 @@ public class AudioPlayer {
      * @param key the key of the sound
      */
     public static void playSound(String key){
-        soundMap.get(key).play(); //We will later be working with volume when we get into options portion of the tutorial
+        soundMap.get(key).play(1f, 0.4f); //We will later be working with volume when we get into options portion of the tutorial
     }
     
     /**
@@ -114,7 +114,7 @@ public class AudioPlayer {
      * @param key the key of the song
      */
     public static void playMusic(String key){
-        musicMap.get(key).loop(1f,0.4f); //We will later be working with volume when we get into options portion of the tutorial
+        musicMap.get(key).loop(1f,0.2f); //We will later be working with volume when we get into options portion of the tutorial
     }
     
 

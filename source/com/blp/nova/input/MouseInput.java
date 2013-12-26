@@ -109,7 +109,7 @@ public class MouseInput extends MouseAdapter {
         MOUSE = new Rectangle(e.getX(), e.getY(), 1, 1);
         if(Game.state == GameState.MENU){
             if(MOUSE.intersects(menu.quit)){
-                System.exit(1);
+                Game.exit();
             }
         }
 
