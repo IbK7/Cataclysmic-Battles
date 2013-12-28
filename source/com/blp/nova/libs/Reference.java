@@ -14,6 +14,8 @@
 */
 package com.blp.nova.libs;
 
+import java.awt.image.BufferedImage;
+
 import com.blp.nova.Game;
 
 
@@ -52,6 +54,8 @@ public class Reference {
      * The base location of our sounds folder
      */
     public static final String SOUND_LOCATION = RESOURCE_LOCATION + "sounds/";
+    
+    public static final int ALPHA_RGB = BufferedImage.TYPE_INT_ARGB;
     
     
 

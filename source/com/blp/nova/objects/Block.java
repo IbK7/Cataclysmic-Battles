@@ -33,7 +33,6 @@ public class Block extends CoreObject {
         super(x, y, id, image);
         this.image = image;
         this.setSize(32, 32);
-        
     }
     
     @Override
@@ -42,7 +41,9 @@ public class Block extends CoreObject {
     @Override
     public void render(Graphics g) {
         g.drawImage(image, (int)x, (int)y, null);
+        super.render(g);
     }
+    
     
 
     

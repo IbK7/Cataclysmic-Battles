@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 
 import com.blp.nova.Controller;
 import com.blp.nova.Game;
+import com.blp.nova.entity.Player;
 import com.blp.nova.gfx.Textures;
 import com.blp.nova.libs.Identities;
 import com.blp.nova.libs.Images;
@@ -68,13 +69,31 @@ public class Level {
                 int green = (pixel >> 8) & 0xff;  //shifts the value right by 8 places to get our green value
                 int blue = (pixel) & 0xff;
                 
-                if(red == 255 && green == 255 && blue == 255)  //if the pixel is all white
-                    controller.addObject(new Block(x * 32, y * 32, Identities.BLOCK_STONE, tex.blockStone));
+                if(red == 255 && green == 255 && blue == 0)
+                    controller.addObject(new Player(x * 32, y * 32, Identities.PLAYER, tex));
+                else if(red == 255 && green == 255 && blue == 255)  //if the pixel is all white
+                    addBlock(x, y, Identities.BLOCK_ASTEROID_CENTER, tex.blockAsteroidCenter);
                 else{
                     if(red == 255)  //pure red
-                        controller.addObject(new Block(x * 32, y * 32, Identities.BLOCK_METAL, tex.blockMetal));
+                        addBlock(x, y, Identities.BLOCK_ASTEROID_TOP_RIGHT, tex.blockAsteroidTopRight);
+                    if(red == 250)
+                        addBlock(x, y, Identities.BLOCK_ASTEROID_TOP_LEFT, tex.blockAsteroidTopLeft);
+                    if(red == 245)
+                        addBlock(x, y, Identities.BLOCK_ASTEROID_TOP, tex.blockAsteroidTop);
+                    if(red == 240)
+                        addBlock(x, y, Identities.BLOCK_ASTEROID_TOP_SIDES, tex.blockAsteroidTopSides);
+                    if(red == 150)
+                        addBlock(x, y, Identities.BLOCK_METAL_GRIP, tex.blockMetalGrip);
+                    if(red == 140)
+                        addBlock(x, y, Identities.BLOCK_METAL_SHEET, tex.blockMetalSheet);
+                    if(green == 255)
+                        addBlock(x, y, Identities.LIQUID_LAVA, tex.lava);
                 }
             }
         }
+    }
+    
+    private void addBlock(int x, int y, int id, BufferedImage texture){
+        controller.addObject(new Block(x * 32, y * 32, id, texture));
     }
 }

@@ -23,14 +23,12 @@ import java.io.InvalidClassException;
 
 import org.lwjgl.openal.AL;
 
-import com.blp.nova.entity.Player;
 import com.blp.nova.enums.GameState;
 import com.blp.nova.gfx.Renderer;
 import com.blp.nova.gfx.Textures;
 import com.blp.nova.input.KeyInput;
 import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Audio;
-import com.blp.nova.libs.Identities;
 import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.AudioPlayer;
 import com.blp.nova.utils.ResourceLoader;
@@ -149,11 +147,25 @@ public class Game extends Canvas implements Runnable {
         this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
         levelOne = new Level(1);
         
-        controller.addObject(new Player(100,HEIGHT - 220, Identities.PLAYER, tex));
-        camera = new Camera(0,0);  //this must be initialized AFTER the controller
-        this.addKeyListener(new KeyInput());
+//        controller.addObject(new Player(100,HEIGHT - 220, Identities.PLAYER, tex));
+//        camera = new Camera(0,0);  //this must be initialized AFTER the controller
+
         
         AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music
+    }
+    
+    /**
+     * temp
+     */
+    public void initCamera(){
+        camera = new Camera(0,0);
+    }
+    
+    /**
+     * temp
+     */
+    public void addKeys(){
+        this.addKeyListener(new KeyInput());
     }
 
     /**
@@ -189,9 +201,11 @@ public class Game extends Canvas implements Runnable {
         ///////////////////////////////////////////////////
 
         gfx.renderBackground(g);
-        g2d.translate(camera.getX(), camera.getY()); //do this before the foreground and after the background
+        if(camera != null)
+            g2d.translate(camera.getX(), camera.getY()); //do this before the foreground and after the background
         gfx.renderForeground(g);
-        g2d.translate(-camera.getX(), -camera.getY());  //do this after the foreground
+        if(camera != null)
+            g2d.translate(-camera.getX(), -camera.getY());  //do this after the foreground
         
         ///////////////////////////////////////////////////
         
@@ -288,6 +302,7 @@ public class Game extends Canvas implements Runnable {
     public static void exit(){
         game.stop();
     }
+    
     
 
 }

@@ -126,6 +126,7 @@ public class Player extends CoreObject {
             else if(direction == Direction.LEFT)
                 animeLeft.drawAnimation(g, x, y);
         }
+        super.render(g);
     }
     
     /**
@@ -139,10 +140,12 @@ public class Player extends CoreObject {
                     velY = 0; //stop trying to fall
                     y = obj.getY() - height;  //sets our y to the top of the block
                     jumping = false; //we can jump again
-                }
+                    falling = false;
+                }else
+                    falling = true;
                 if(getTopBounds().intersects(obj.getBottomBounds())){   //collision between top of player and bottom of block
-                    fall(); //hang for a split second, then fall (velY = -velY for an immediate fall)
-                    y = obj.getY() + obj.getHeight();  //we need to stop being inside the block so we can fall
+                    fall();
+                    y = obj.getY() + obj.getHeight() + 1;  //we need to stop being inside the block so we can fall
                 }
                 if(getRightBounds().intersects(obj.getLeftBounds())){   //collision between right of player and left of block
                     velX = 0; //stop trying to move
@@ -161,10 +164,13 @@ public class Player extends CoreObject {
      * Makes the player fall using gravity
      */
     public void fall(){
+        /*
+         * gravity is acceleration due to a magnetic pull (gravitational pull)
+         * Earth's gravity is 9.8 m/s^2, but its still a form of acceleration, which is the change in VELOCITY over time
+         * that is why add the gravity to the velocity of y, rather than y itself, this also makes it gradually fall faster
+         */
         if(falling)
-            velY += gravity;  //gravity is acceleration due to a magnetic pull (gravitational pull)
-                              //Earth's gravity is 9.8 m/s^2, but its still a form of acceleration, which is the change in VELOCITY over time
-                              //that is why add the gravity to the velocity of y, rather than y itself, this also makes it gradually fall faster
+            velY += gravity; 
     }
     
 

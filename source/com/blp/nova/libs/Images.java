@@ -33,9 +33,14 @@ public class Images {
     public static BufferedImage title;
     
     /*
-     * Sprite sheets
+     * Spritesheets
      */
-    public static BufferedImage spritesheetBlocks;
+    public static BufferedImage rockyBlocksHD;
+    public static BufferedImage spritesheetRockyBlocks;
+    public static BufferedImage metalBlocksHD;
+    public static BufferedImage spritesheetMetalBlocks;
+    public static BufferedImage liquidHD;
+    public static BufferedImage spritesheetLiquid;
     public static BufferedImage spritesheetPlayer;
     
     /*

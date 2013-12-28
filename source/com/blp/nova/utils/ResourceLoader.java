@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import com.blp.nova.libs.Audio;
 import com.blp.nova.libs.Images;
+import com.blp.nova.libs.Reference;
 
 
 /**
@@ -39,7 +40,12 @@ public class ResourceLoader {
         
         try{
             Images.title = imageLoader.loadImage("title.png");
-            Images.spritesheetBlocks = imageLoader.loadImage("blocks32.png");
+            Images.rockyBlocksHD = imageLoader.loadImage("rocky_blocks.png");
+            Images.spritesheetRockyBlocks = ImageModifier.resizeImage(Images.rockyBlocksHD, Reference.ALPHA_RGB, 0, 0, 512, 512, 0.25);
+            Images.metalBlocksHD = imageLoader.loadImage("metal_blocks.png");
+            Images.spritesheetMetalBlocks = ImageModifier.resizeImage(Images.metalBlocksHD, Reference.ALPHA_RGB, 0, 0, 512, 512, 0.25);
+            Images.liquidHD = imageLoader.loadImage("liquid.png");
+            Images.spritesheetLiquid = ImageModifier.resizeImage(Images.liquidHD, Reference.ALPHA_RGB, 0, 0, 512, 512, 0.25);
             Images.spritesheetPlayer = imageLoader.loadImage("female.png");
             Images.levelOne = imageLoader.loadImage("levels/level1.png");
         } catch(IOException e){
