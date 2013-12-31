@@ -16,10 +16,11 @@ package com.blp.nova.world;
 
 import java.awt.image.BufferedImage;
 
-import com.blp.nova.Controller;
 import com.blp.nova.Game;
+import com.blp.nova.core.CoreObject;
 import com.blp.nova.entity.Player;
-import com.blp.nova.gfx.Textures;
+import com.blp.nova.handlers.Controller;
+import com.blp.nova.handlers.Textures;
 import com.blp.nova.libs.Identities;
 import com.blp.nova.libs.Images;
 import com.blp.nova.objects.Block;
@@ -70,7 +71,7 @@ public class Level {
                 int blue = (pixel) & 0xff;
                 
                 if(red == 255 && green == 255 && blue == 0)
-                    controller.addObject(new Player(x * 32, y * 32, Identities.PLAYER, tex));
+                    addPlayer((float)x, (float)y, red, green, blue);
                 else if(red == 255 && green == 255 && blue == 255)  //if the pixel is all white
                     addBlock(x, y, Identities.BLOCK_ASTEROID_CENTER, tex.blockAsteroidCenter);
                 else{
@@ -89,11 +90,22 @@ public class Level {
                     if(green == 255)
                         addBlock(x, y, Identities.LIQUID_LAVA, tex.lava);
                 }
+                
+                
             }
         }
     }
     
     private void addBlock(int x, int y, int id, BufferedImage texture){
         controller.addObject(new Block(x * 32, y * 32, id, texture));
+    }
+    
+    private void addPlayer(float x, float y, int red, int green, int blue){
+        Player player = null;
+        for(CoreObject obj : controller.getObjects())
+            if(obj.getId() == Identities.PLAYER)
+                player = (Player) obj;
+            player.setX(x * 32);
+            player.setY(y * 32);
     }
 }

@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.blp.nova.libs.Reference;
+import com.blp.nova.screens.LoadScreen;
 
 
 /**
@@ -47,6 +48,7 @@ public class Fonts {
      * @param filePath the file path of the TTF font
      */
     public Fonts(String filePath){
+        LoadScreen.setMessage("Loading fonts from " + Reference.FONT_LOCATION);
         Fonts.fontPath = Reference.FONT_LOCATION + filePath;
         registerFont();
     }

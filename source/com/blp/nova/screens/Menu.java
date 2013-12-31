@@ -19,7 +19,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import com.blp.nova.Game;
-import com.blp.nova.libs.Images;
 import com.blp.nova.libs.Reference;
 import com.blp.nova.utils.Button;
 
@@ -55,10 +54,10 @@ public class Menu {
     public void render(Graphics g){
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-        g.drawImage(Images.title, 128, 10, null);
-        
-        Font viking = new Font("Viking-Normal", Font.PLAIN, 32);
-        g.setFont(viking);  //sets the font of the text on the buttons
+        g.setColor(new Color(255,120,0));
+        g.setFont(new Font("Neuropol", Font.PLAIN, 50));
+        g.drawString(Game.TITLE, 50, 50);
+        g.setFont(new Font("Planet Kosmos", Font.PLAIN, 32));  //sets the font of the text on the buttons
         
         play.drawButton(g, 55);
         options.drawButton(g, 15);

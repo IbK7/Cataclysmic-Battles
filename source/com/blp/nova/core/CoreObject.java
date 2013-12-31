@@ -18,7 +18,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import com.blp.nova.gfx.Textures;
+import com.blp.nova.handlers.Textures;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>

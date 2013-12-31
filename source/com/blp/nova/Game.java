@@ -23,12 +23,18 @@ import java.io.InvalidClassException;
 
 import org.lwjgl.openal.AL;
 
+import com.blp.nova.entity.Player;
 import com.blp.nova.enums.GameState;
 import com.blp.nova.gfx.Renderer;
-import com.blp.nova.gfx.Textures;
+import com.blp.nova.handlers.Controller;
+import com.blp.nova.handlers.Textures;
 import com.blp.nova.input.KeyInput;
 import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Audio;
+import com.blp.nova.libs.Identities;
+import com.blp.nova.main.Camera;
+import com.blp.nova.main.Window;
+import com.blp.nova.screens.LoadScreen;
 import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.AudioPlayer;
 import com.blp.nova.utils.ResourceLoader;
@@ -88,7 +94,7 @@ public class Game extends Canvas implements Runnable {
     public static final int HEIGHT = WIDTH / 4 * 3;  //Creates a nice 4:3 ratio for our window
     public static final String TITLE = "Cataclysmic Battles";  //The title of our game
     private static Game game = new Game();  //The instance of our game that we will be using
-    public static GameState state = GameState.MENU;  //We start in this game state
+    public static GameState state = GameState.LOADING;  //We start in this game state
 
     private boolean running = false;  //by default, we need this to be false so we do not exit our start method right away
     private Thread thread;  //the thread that will control our game loop
@@ -98,6 +104,10 @@ public class Game extends Canvas implements Runnable {
     private Controller controller = new Controller(); //control all of our game objects
     private Textures tex;  //handles our textures
     public Level levelOne;  //temporary location
+    
+
+    private int time = 100;
+    private int counter = 0;
     
     /**
      * Used to access the Game class <i>non-static</i> members
@@ -130,49 +140,86 @@ public class Game extends Canvas implements Runnable {
     }
 
 
+
     /**
-     * Acts as the constructor for the game
-     * <br> I simply prefer it this way <br>
-     * <strong> This initializes the game objects, resources, listeners, etc </strong>
+     * Very first thing to be loaded
      */
     public void init() {
-        ResourceLoader.loadImages();  //Loads our images and sprites
-        ResourceLoader.loadFonts();  //Loads our fonts
-        ResourceLoader.loadSounds(); //Loads our sounds
-        tex = new Textures();
-        menu = new Menu();  //creates our menu
-        gfx = new Renderer();  //initializes our renderer
-        MouseInput mouse = new MouseInput();  //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
-        this.addMouseListener(mouse); //adds a listener to listen for clicking of mouse buttons
-        this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
-        levelOne = new Level(1);
-        
-//        controller.addObject(new Player(100,HEIGHT - 220, Identities.PLAYER, tex));
-//        camera = new Camera(0,0);  //this must be initialized AFTER the controller
+        ResourceLoader.preLoad();
+    }
+   
+    private void load(){
+        switch(counter){
+            case 0:
+                ResourceLoader.loadImages();  //Loads our images and sprites
+                counter++;
+                LoadScreen.loadMore();
+                return;
+            case 1:
+                ResourceLoader.loadFonts();  //Loads our fonts
+                counter++;
+                LoadScreen.loadMore();
+                return;
+            case 2:
+                ResourceLoader.loadSounds(); //Loads our sounds
+                counter++;
+                LoadScreen.loadMore();
+                return;
+            case 3:
+                tex = new Textures();
+                counter++;
+                LoadScreen.loadMore();
+                return;
+            case 4:
+                menu = new Menu();  //creates our menu
+                counter++;
+                LoadScreen.loadMore();
+                return;
+            case 5:
+                gfx = new Renderer();  //initializes our renderer
+                counter++;
+                LoadScreen.loadMore();
+                return;
+            case 6:
+                MouseInput mouse = new MouseInput();  //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
+                this.addMouseListener(mouse); //adds a listener to listen for clicking of mouse buttons
+                this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
+                levelOne = new Level(1);
+                counter++;
+                LoadScreen.loadMore();
+                return;
+            case 7:
+                controller.addObject(new Player(100,HEIGHT - 220, Identities.PLAYER, tex));
+                camera = new Camera(0,0);  //this must be initialized AFTER the controller
+                this.addKeyListener(new KeyInput());
+                counter++;
+                LoadScreen.loadMore();
+                return;
+            case 8:
+                counter++;
+                LoadScreen.loadMore();
+                state = GameState.MENU;
+                AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music
+                return;
+        }
 
-        
-        AudioPlayer.playMusic(Audio.MUSIC_MOON);  //Plays our music
     }
+       
     
-    /**
-     * temp
-     */
-    public void initCamera(){
-        camera = new Camera(0,0);
-    }
-    
-    /**
-     * temp
-     */
-    public void addKeys(){
-        this.addKeyListener(new KeyInput());
-    }
+
 
     /**
-     * Updates the objects in the game <br>
-     * This also runs the <strong> <i> logic </i> </strong> in the game
+     * Updates the objects in the game<br>
+     * This also runs the <strong><i>logic</i></strong> in the game
      */
     public void tick() {
+        if(state == GameState.LOADING){
+            time--;
+            if(time <= 0){
+                load();
+                time = 50;
+            }
+        }
         if(state == GameState.GAME){
             controller.tick();
             camera.tick();
@@ -182,8 +229,8 @@ public class Game extends Canvas implements Runnable {
 
 
     /**
-     * This <strong> <i> renders the graphics </strong> </i> for the game
-     * <p> This method uses a <strong> <i> triple buffering strategy </strong> </i> with a default background of a darkish purple
+     * This <strong><i>renders the graphics</strong></i> for the game
+     * <p> This method uses a <strong><i>triple buffering strategy</strong></i> with a default background of a darkish purple
      */
     public void render() {
         BufferStrategy bs = this.getBufferStrategy();
@@ -199,14 +246,17 @@ public class Game extends Canvas implements Runnable {
 
         
         ///////////////////////////////////////////////////
+        if(state == GameState.LOADING)
+            LoadScreen.render(g);
+        else{
+            gfx.renderBackground(g);
+            if(camera != null)
+                g2d.translate(camera.getX(), camera.getY()); //do this before the foreground and after the background
+            gfx.renderForeground(g);
+            if(camera != null)
+                g2d.translate(-camera.getX(), -camera.getY());  //do this after the foreground
+        }
 
-        gfx.renderBackground(g);
-        if(camera != null)
-            g2d.translate(camera.getX(), camera.getY()); //do this before the foreground and after the background
-        gfx.renderForeground(g);
-        if(camera != null)
-            g2d.translate(-camera.getX(), -camera.getY());  //do this after the foreground
-        
         ///////////////////////////////////////////////////
         
         

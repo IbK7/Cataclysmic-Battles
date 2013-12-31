@@ -19,6 +19,7 @@ import java.io.IOException;
 import com.blp.nova.libs.Audio;
 import com.blp.nova.libs.Images;
 import com.blp.nova.libs.Reference;
+import com.blp.nova.utils.files.BufferedImageLoader;
 
 
 /**
@@ -33,13 +34,20 @@ public class ResourceLoader {
 
     private static BufferedImageLoader imageLoader = new BufferedImageLoader();
     
+    public static void preLoad(){
+        try{
+            Images.loading = imageLoader.loadImage("loading.png");
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * Loads all of the images and sprites to be used in the game
      */
     public static void loadImages(){
         
         try{
-            Images.title = imageLoader.loadImage("title.png");
             Images.rockyBlocksHD = imageLoader.loadImage("rocky_blocks.png");
             Images.spritesheetRockyBlocks = ImageModifier.resizeImage(Images.rockyBlocksHD, Reference.ALPHA_RGB, 0, 0, 512, 512, 0.25);
             Images.metalBlocksHD = imageLoader.loadImage("metal_blocks.png");
@@ -59,6 +67,8 @@ public class ResourceLoader {
      */
     public static void loadFonts(){
         Fonts.addFont(new Fonts("VIKING-N.TTF")); //This is the file name, NOT the font name
+        Fonts.addFont(new Fonts("NEUROPOL.TTF"));
+        Fonts.addFont(new Fonts("PLANK___.TTF"));
     }
     
     

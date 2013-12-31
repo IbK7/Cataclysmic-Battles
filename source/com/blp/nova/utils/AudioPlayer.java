@@ -22,6 +22,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import com.blp.nova.libs.Reference;
+import com.blp.nova.screens.LoadScreen;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
@@ -58,6 +59,7 @@ public class AudioPlayer {
      * @param path the name of the sound file
      */
     public static void addSound(String key, String path){
+        LoadScreen.setMessage("Loading sounds from " + Reference.SOUND_LOCATION);
         try {
             soundMap.put(key, new Sound(Reference.SOUND_LOCATION + path));
         } catch (SlickException e) {
@@ -74,6 +76,7 @@ public class AudioPlayer {
      * @param path the name of the song file
      */
     public static void addMusic(String key, String path){
+        LoadScreen.setMessage("Loading music from " + Reference.SOUND_LOCATION);
         try {
             musicMap.put(key, new Music(Reference.SOUND_LOCATION + path));
         } catch (SlickException e) {

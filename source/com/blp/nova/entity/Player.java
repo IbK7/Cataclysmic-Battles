@@ -21,7 +21,7 @@ import com.blp.nova.Game;
 import com.blp.nova.core.CoreObject;
 import com.blp.nova.enums.Direction;
 import com.blp.nova.gfx.Animation;
-import com.blp.nova.gfx.Textures;
+import com.blp.nova.handlers.Textures;
 import com.blp.nova.objects.Block;
 
 /**
@@ -70,7 +70,7 @@ public class Player extends CoreObject {
     /**
      * used to control which sprites are being used
      */
-    private Direction direction = Direction.LEFT;
+    private Direction direction = Direction.RIGHT;
     
     
 
@@ -129,6 +129,7 @@ public class Player extends CoreObject {
         super.render(g);
     }
     
+    
     /**
      * Helper method to check for collision with blocks and such
      */
@@ -169,8 +170,11 @@ public class Player extends CoreObject {
          * Earth's gravity is 9.8 m/s^2, but its still a form of acceleration, which is the change in VELOCITY over time
          * that is why add the gravity to the velocity of y, rather than y itself, this also makes it gradually fall faster
          */
-        if(falling)
-            velY += gravity; 
+        if(falling){
+            velY += gravity;
+            if(velY >= 15)
+                velY = 13;
+        }
     }
     
 

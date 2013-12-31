@@ -12,45 +12,24 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package com.blp.nova.libs;
+package com.blp.nova.utils;
 
-import java.awt.image.BufferedImage;
-
+import com.blp.nova.utils.files.TextFile;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * <strong>Class:</strong> Images
+ * <strong>Class:</strong> Updater
  *
  * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
-public class Images {
-
-    /*
-     * This is a reference class to contain all of our images that will be used in the game
-     */
+public class Updater {
+    private static String currentVersion, newVersion;
+    public static int update = 0;
     
-    
-    public static BufferedImage loading;
-    
-    /*
-     * Spritesheets
-     */
-    public static BufferedImage rockyBlocksHD;
-    public static BufferedImage spritesheetRockyBlocks;
-    public static BufferedImage metalBlocksHD;
-    public static BufferedImage spritesheetMetalBlocks;
-    public static BufferedImage liquidHD;
-    public static BufferedImage spritesheetLiquid;
-    public static BufferedImage spritesheetPlayer;
-    
-    /*
-     * Levels
-     */
-    public static BufferedImage levelOne;
-    
-    
-    
+    public static void checkForUpdate(boolean isAuto) {
+        currentVersion = TextFile.readFile("./version.txt");
+    }
 
 }

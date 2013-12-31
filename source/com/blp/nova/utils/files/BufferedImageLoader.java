@@ -12,7 +12,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package com.blp.nova.utils;
+package com.blp.nova.utils.files;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,6 +21,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.blp.nova.libs.Reference;
+import com.blp.nova.screens.LoadScreen;
 
 
 /**
@@ -42,6 +43,7 @@ public class BufferedImageLoader {
      * @throws IOException there is a chance this can fail, so we will need to account for the exception when we load the image
      */
     public BufferedImage loadImage(String imagePath) throws IOException{
+        LoadScreen.setMessage("Loading textures from " + Reference.SPRITE_LOCATION);
         image = ImageIO.read(new File(Reference.SPRITE_LOCATION + imagePath));  //reads the file and turns it into an image
         return image;
     }

@@ -12,7 +12,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package com.blp.nova;
+package com.blp.nova.main;
 
 import java.awt.Image;
 import java.awt.Point;
@@ -22,6 +22,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
+import com.blp.nova.Game;
 import com.blp.nova.libs.Reference;
 
 /**

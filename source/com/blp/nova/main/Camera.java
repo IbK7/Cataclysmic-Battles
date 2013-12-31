@@ -12,8 +12,9 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package com.blp.nova;
+package com.blp.nova.main;
 
+import com.blp.nova.Game;
 import com.blp.nova.core.CoreObject;
 import com.blp.nova.entity.Player;
 import com.blp.nova.libs.Identities;
