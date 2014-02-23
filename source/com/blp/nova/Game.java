@@ -38,6 +38,7 @@ import com.blp.nova.screens.LoadScreen;
 import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.AudioPlayer;
 import com.blp.nova.utils.ResourceLoader;
+import com.blp.nova.utils.Updater;
 import com.blp.nova.world.Level;
 
 
@@ -196,6 +197,11 @@ public class Game extends Canvas implements Runnable {
                 LoadScreen.loadMore();
                 return;
             case 8:
+                Updater.checkForUpdate(true);
+                counter++;
+                LoadScreen.loadMore();
+                return;
+            case 9:
                 counter++;
                 LoadScreen.loadMore();
                 state = GameState.MENU;

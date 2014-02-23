@@ -15,6 +15,9 @@
 package com.blp.nova.libs;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import com.blp.nova.Game;
 
@@ -28,6 +31,18 @@ import com.blp.nova.Game;
  *
  */
 public class Reference {
+    
+    static{
+        Properties prop = new Properties();
+        InputStream stream = Reference.class.getClassLoader().getResourceAsStream("version.properties");
+        try {
+            prop.load(stream);
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        VERSION = prop.getProperty("verion");
+    }
 
     /**
      * The horizontal center of the window
@@ -56,6 +71,8 @@ public class Reference {
     public static final String SOUND_LOCATION = RESOURCE_LOCATION + "sounds/";
     
     public static final int ALPHA_RGB = BufferedImage.TYPE_INT_ARGB;
+    
+    public static final String VERSION;
     
     
 
