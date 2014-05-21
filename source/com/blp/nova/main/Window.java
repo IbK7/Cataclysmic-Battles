@@ -36,26 +36,12 @@ import com.blp.nova.libs.Reference;
 public class Window {
     private static JFrame frame;
     
-    /**
-     * Initiazlizes the window with a given title
-     * @param title
-     */
-    public static void initWindow(String title){
+    public static void createWindow(Game game, String title){
         frame = new JFrame(title);
-    }
-    
-    /**
-     * Adds a new game to the window
-     * @param game the game to be added
-     */
-    public static void addGame(Game game){
-        frame.add(game);
-    }
-    
-    public static void createWindow(){
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Image icon = toolkit.getImage(Reference.RESOURCE_LOCATION + "icon.png");  //This is the image we will be using as our window's icon
         Image cursor = toolkit.getImage(Reference.RESOURCE_LOCATION + "cursor.gif");
+        frame.add(game);
         frame.setIconImage(icon); //sets the icon we specified above
         frame.setCursor(toolkit.createCustomCursor(cursor, new Point(frame.getX(), frame.getY()), "cursor"));
         frame.setSize(Game.WIDTH, Game.HEIGHT); //sets the size of our window

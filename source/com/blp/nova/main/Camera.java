@@ -15,9 +15,7 @@
 package com.blp.nova.main;
 
 import com.blp.nova.Game;
-import com.blp.nova.core.CoreObject;
 import com.blp.nova.entity.Player;
-import com.blp.nova.libs.Identities;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
@@ -28,45 +26,23 @@ import com.blp.nova.libs.Identities;
  *
  */
 public class Camera {
-    
-    private float x, y;
-    private Player player;
-    
+
+    private float  x = 0, y = 0;
+
     /**
-     * Constructs a new camera to follow the player
-     * @param x by default it is recommended you set this to 0
-     * @param y by default it is recommended you set this to 0
+     * Updates the camera's x value so it can follow the player
+     * Algorithm used: Tweaning = x += (target - value) * constant
      */
-    public Camera(float x, float y){
-        this.x = x;
-        this.y = y;
-        for(CoreObject obj : Game.getInstance().getController().getObjects())
-            if(obj.getId() == Identities.PLAYER)
-                player = (Player) obj;
-    }
-    
-    /**
-     * Updates the camera's x value so it can follow the player<p>
-     * <strong>Algorithm</strong> used: Tweaning = <br><code>x += (target - value) * constant</code>
-     */
-    public void tick(){
+    public void tick(Player player) {
         x += ((-player.getX() + Game.WIDTH / 2) - x) * 0.0275f;
     }
 
-    /**
-     * @return the x
-     */
     public float getX() {
         return x;
     }
 
-    /**
-     * @return the y
-     */
     public float getY() {
         return y;
     }
-    
-    
 
 }

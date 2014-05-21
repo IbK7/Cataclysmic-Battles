@@ -15,58 +15,45 @@
 package com.blp.nova.gfx;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
-/**
- * <strong>Project:</strong> CataclysmicBattles <br>
- *
- * <strong>Class:</strong> Animation
- *
- * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
- *
- */
+import com.blp.nova.gfx.textures.Sprite;
+
 public class Animation {
-    
+
     /**
-     * Used to make sure <code>nextFrame()</code> does not excede <code>frames</code>
+     * Used to make sure nextFrame() does not excede frames
      */
-    private int count = 0;
+    private int      count = 0;
     /**
-     * Used to make sure <code>runAnimation()</code> does not excede <code>speed</code>
+     * Used to make sure runAnimation() does not excede speed
      */
-    private int index = 0;
+    private int      index = 0;
     /**
      * determines how fast the frames will animate
      */
-    private int speed;
+    private int      speed;
     /**
      * the number of images/steps in the animation
      */
-    private int frames;
+    private int      frames;
 
-    /**
-     * the current image being displayed
-     */
-    private BufferedImage currentImage;
-    /**
-     * an array containing images for each frame
-     */
-    private BufferedImage anime[];
+    private Sprite   currentSprite;
+    private Sprite[] sprites;
 
     /**
      * Constructs a new animation set
      * @param speed the speed of the animation
-     * @param anime the array of images
+     * @param sprites the array of images
      */
-    public Animation(int speed, BufferedImage anime[]) {
+    public Animation(int speed, Sprite... sprites) {
         this.speed = speed;
-        this.anime = anime;
-        frames = anime.length;
+        this.sprites = sprites;
+        frames = sprites.length;
     }
 
     /**
-     * Runs the animation and updates the frames<br>
-     * Called in the <code><strong>tick</code></strong> method of the object being animated
+     * Runs the animation and updates the frames
+     * Called in the tick method of the object being animated
      */
     public void runAnimation() {
         index++;
@@ -77,13 +64,13 @@ public class Animation {
     }
 
     /**
-     * Moves the animation on to the next frame<br>
-     * Used in the <code>runAnimation</code> method
+     * Moves the animation on to the next frame
+     * Used in the runAnimation method
      */
     private void nextFrame() {
         for (int k = 0; k < frames; k++)
             if (count == k)
-                currentImage = anime[k];
+                currentSprite = sprites[k];
 
         count++;
         if (count > frames)
@@ -91,16 +78,15 @@ public class Animation {
     }
 
     /**
-     * Draws the current image or frame in the animation set<br>
-     * Used in the <code><strong>render</code></strong> method of the object being animated
-     * @param g the <code>Graphics</code> context
+     * Draws the current image or frame in the animation set
+     * Used in the render method of the object being animated
+     * @param g the Graphics context
      * @param x the x coordinate of the object
      * @param y the y coordinate of the object
      */
-    public void drawAnimation(Graphics g, float x, float y) {
-        g.drawImage(currentImage, (int) x, (int) y, null);
+    public void drawAnimation(Graphics g, int x, int y) {
+        if(currentSprite != null)
+            currentSprite.render(g, x, y);
     }
-    
-    
 
 }

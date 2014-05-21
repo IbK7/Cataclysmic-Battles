@@ -19,6 +19,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import com.blp.nova.Game;
+import com.blp.nova.enums.GameState;
 import com.blp.nova.libs.Reference;
 import com.blp.nova.utils.Button;
 
@@ -33,16 +34,16 @@ import com.blp.nova.utils.Button;
  */
 public class Menu {
 
-    public Button play, options, quit;  //Our buttons on the menu
+    private Button play, options, quit;  //Our buttons on the menu
     
     /**
      * Creates a new menu with the play, options, and quit buttons
      */
     public Menu(){
         int fillerY = 150; //used to facilitate the placing of the buttons vertically
-        play = new Button(Reference.CENTER_X - 100, fillerY, 200, 50).setText("Play");
-        options = new Button(Reference.CENTER_X - 100, fillerY+=60, 200, 50).setText("Options");
-        quit = new Button(Reference.CENTER_X - 100, fillerY+=60, 200, 50).setText("Quit");
+        play = new Button(Reference.CENTER_X - 100, fillerY, 200, 50, GameState.GAME, Reference.SOUND_LASER).setText("Play");
+        options = new Button(Reference.CENTER_X - 100, fillerY+=60, 200, 50, GameState.OPTIONS, Reference.SOUND_LASER).setText("Options");
+        quit = new Button(Reference.CENTER_X - 100, fillerY+=60, 200, 50, GameState.MENU, Reference.SOUND_LASER, true).setText("Quit");
         
     }
 
@@ -64,4 +65,5 @@ public class Menu {
         quit.drawButton(g, 55);
 
     }
+    
 }

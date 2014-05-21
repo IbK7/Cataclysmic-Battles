@@ -14,15 +14,19 @@
 */
 package com.blp.nova.entity;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 
 import com.blp.nova.Game;
-import com.blp.nova.core.CoreObject;
-import com.blp.nova.enums.Direction;
+import com.blp.nova.entity.mobs.Mob;
 import com.blp.nova.gfx.Animation;
-import com.blp.nova.handlers.Textures;
-import com.blp.nova.objects.Block;
+import com.blp.nova.gfx.textures.Sprite;
+import com.blp.nova.gfx.textures.SpriteSheet;
+import com.blp.nova.input.KeyInput;
+import com.blp.nova.world.World;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
@@ -32,195 +36,112 @@ import com.blp.nova.objects.Block;
  * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
-public class Player extends CoreObject {
+public class Player extends Mob {
     
-    /**
-     * convenience list to hold the data of <code>Controller.getObjects()</code>
-     */
-    private static ArrayList<CoreObject> gameObjects = Game.getInstance().getController().getObjects();
-
-    /**
-     * this is used to control the gravety in the game, and how fast the player will fall
-     * <br>This is the amount that will be added to the velY when falling
-     */
-    private float gravity = 0.55f;
-    /**
-     * Make sure the player is always trying to fall
-     */
-    private boolean falling = true;
-    /**
-     * by default, the player is not jumping, duh
-     */
-    private boolean jumping = false;
-    /**
-     * by default, the player is not moving, duh
-     * <br>Used to determine when the player should be animating
-     */
-    private boolean moving = false;
+    private static SpriteSheet sheet = new SpriteSheet("player.png");
     
-    /**
-     * the animation set for when the player is moving right
-     */
-    private Animation animeRight;
-    /**
-     * the animation set for when the player is moving left
-     */
-    private Animation animeLeft;
-    
-    /**
-     * used to control which sprites are being used
-     */
-    private Direction direction = Direction.RIGHT;
-    
-    
-
-    /**
-     * Creates a new player
-     * @param x the far left x coordinate
-     * @param y the upper y coordinate
-     * @param width the width of the players rectangle (would be same as sprite more than likely)
-     * @param height the height of the players rectangle (would be same as sprite more than likely)
-     * @param id the ID of the player
-     * @param tex the <code>Texture</code> object
-     */
-    public Player(float x, float y, int id, Textures tex) {
-        super(x, y, id, tex);
-        this.setSize(32, 70);
-        animeRight = new Animation(3, tex.playerRight);
-        animeLeft = new Animation(3, tex.playerLeft);
+    public Player(int x, int y, World world) {
+        super(x, y, world);
+        sprite = new Sprite(2, 1, 50, sheet);
+        sprite2 = new Sprite(1, 1, 50, sheet);
+        Sprite[] rights = new Sprite[]
+                {
+                new Sprite(1, 2, 50, sheet),
+                new Sprite(2, 2, 50, sheet),
+                new Sprite(3, 2, 50, sheet),
+                new Sprite(4, 2, 50, sheet),
+                new Sprite(5, 2, 50, sheet),
+                new Sprite(1, 3, 50, sheet),
+                new Sprite(2, 3, 50, sheet),
+                new Sprite(3, 3, 50, sheet)
+                };
+        Sprite[] lefts = new Sprite[]
+                {
+                new Sprite(1, 4, 50, sheet),
+                new Sprite(2, 4, 50, sheet),
+                new Sprite(3, 4, 50, sheet),
+                new Sprite(4, 4, 50, sheet),
+                new Sprite(5, 4, 50, sheet),
+                new Sprite(1, 5, 50, sheet),
+                new Sprite(2, 5, 50, sheet),
+                new Sprite(3, 5, 50, sheet)
+                };
+        animeLeft = new Animation(5, lefts);
+        animeRight = new Animation(5, rights);
     }
 
     @Override
-    /**
-     * Runs the logic and updates the values of the player
-     */
     public void tick() {
-        x += velX;
-        y += velY;
-        
-        fall();  //fall first, then check collision
-        checkCollision();
-        if(moving){
-            if(direction == Direction.RIGHT)
-                animeRight.runAnimation();
-            else if(direction == Direction.LEFT)
-                animeLeft.runAnimation();
+        velX = 0;
+        if(KeyInput.getKey(KeyEvent.VK_D)) velX += 3;
+        if(KeyInput.getKey(KeyEvent.VK_A)) velX -= 3;
+        if(KeyInput.getKey(KeyEvent.VK_W) && !jumping){
+            jumping = true;
+            velY = -10;
         }
+        super.tick();
+    }
+    
+    /* debugging rectangles */
+    Rectangle floor = new Rectangle(0, Game.HEIGHT - 50, Game.WIDTH, 100);
+    Rectangle ceiling = new Rectangle(0, Game.HEIGHT - 150, Game.WIDTH, 10);
+    Rectangle leftWall = new Rectangle(0, Game.HEIGHT - 150, 10, 200);
+    Rectangle rightWall = new Rectangle(Game.WIDTH - 10, Game.HEIGHT - 150, 10, 200);
+    
+    @Override
+    protected boolean hasVerticalCollision() { //because our collision methods are now seperated, we have pixel perfect collision
+        if(getBottom().intersects(floor) && velY > 0){ //if velY > 0 that means we are trying to jump, so it should let us
+            jumping = false; //when we are on the ground, we need to re-allow the player to jump
+            return true;
+        }
+        if(getTop().intersects(ceiling) && velY < 0){ //if we are jumping and hit the ceiling
+            velY = 0;
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    protected boolean hasHorizontalCollision() {
+        if(getRight().intersects(rightWall) && velX > 0) return true;
+        if(getLeft().intersects(leftWall) && velX < 0) return true;
+        return false;
+    }
+    
+    @Override
+    public void render(Graphics g) { //overridden method for debug purposes
+        super.render(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.RED);
+        g2d.draw(floor);
+        g2d.draw(ceiling);
+        g2d.draw(leftWall);
+        g2d.draw(rightWall);
+    }
+    
+    @Override
+    public Rectangle getTop() {
+        return new Rectangle(x + 16, y + 4, 12, 4);
     }
 
     @Override
-    /**
-     * draws the player onto the screen
-     * @param g the graphics context
-     */
-    public void render(Graphics g) {
-        if(!moving){
-            if(direction == Direction.RIGHT)
-                g.drawImage(tex.playerStandingRight, (int)x, (int)y, null);
-            else if(direction == Direction.LEFT)
-                g.drawImage(tex.playerStandingLeft, (int)x, (int)y, null);
-        }
-        else{
-            if(direction == Direction.RIGHT)
-                animeRight.drawAnimation(g, x, y);
-            else if(direction == Direction.LEFT)
-                animeLeft.drawAnimation(g, x, y);
-        }
-        super.render(g);
-    }
-    
-    
-    /**
-     * Helper method to check for collision with blocks and such
-     */
-    private void checkCollision(){
-        
-        for(CoreObject obj : gameObjects){
-            if(obj instanceof Block){  //do this stuff if the object is a Block
-                if(getBottomBounds().intersects(obj.getTopBounds())){   //collision between bottom of player and top of block
-                    velY = 0; //stop trying to fall
-                    y = obj.getY() - height;  //sets our y to the top of the block
-                    jumping = false; //we can jump again
-                    falling = false;
-                }else
-                    falling = true;
-                if(getTopBounds().intersects(obj.getBottomBounds())){   //collision between top of player and bottom of block
-                    fall();
-                    y = obj.getY() + obj.getHeight() + 1;  //we need to stop being inside the block so we can fall
-                }
-                if(getRightBounds().intersects(obj.getLeftBounds())){   //collision between right of player and left of block
-                    velX = 0; //stop trying to move
-                    x = obj.getX() - width; //set our x to the edge of the block
-                }
-                if(getLeftBounds().intersects(obj.getRightBounds())){   //collision between left of player and right of block
-                    velX = 0; //stop trying to move
-                    x = obj.getX() + obj.getWidth(); //set our x to the edge of the block
-                }
-            }
-        }
-        
-    }
-    
-    /**
-     * Makes the player fall using gravity
-     */
-    public void fall(){
-        /*
-         * gravity is acceleration due to a magnetic pull (gravitational pull)
-         * Earth's gravity is 9.8 m/s^2, but its still a form of acceleration, which is the change in VELOCITY over time
-         * that is why add the gravity to the velocity of y, rather than y itself, this also makes it gradually fall faster
-         */
-        if(falling){
-            velY += gravity;
-            if(velY >= 15)
-                velY = 13;
-        }
-    }
-    
-
-    /**
-     * @return true if the player is jumping
-     */
-    public boolean isJumping() {
-        return jumping;
+    public Rectangle getBottom() {
+        return new Rectangle(x + 13, y + 50, 23, 4);
     }
 
-    /**
-     * @param jumping the boolean to set the jumping state to
-     */
-    public void setJumping(boolean jumping) {
-        this.jumping = jumping;
+    @Override
+    public Rectangle getRight() {
+        return new Rectangle(x + 41, y + 8, 4, 40);
     }
 
-    /**
-     * @return true if the player moving
-     */
-    public boolean isMoving() {
-        return moving;
+    @Override
+    public Rectangle getLeft() {
+        return new Rectangle(x + 10, y + 8, 4, 40);
     }
 
-    /**
-     * @param moving : is the player moving?
-     */
-    public void setMoving(boolean moving) {
-        this.moving = moving;
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, 50, 50);
     }
-    
-    /**
-     * Changes the direction the player is facing
-     * @param direction the new direction to set
-     */
-    public void setDirection(Direction direction){
-        this.direction = direction;
-    }
-    
-    /**
-     * @return the current direction the player is facing
-     */
-    public Direction getDirection(){
-        return direction;
-    }
-    
-
 
 }

@@ -14,12 +14,7 @@
 */
 package com.blp.nova.utils;
 
-import java.io.IOException;
-
-import com.blp.nova.libs.Audio;
-import com.blp.nova.libs.Images;
 import com.blp.nova.libs.Reference;
-import com.blp.nova.utils.files.BufferedImageLoader;
 
 
 /**
@@ -32,33 +27,17 @@ import com.blp.nova.utils.files.BufferedImageLoader;
  */
 public class ResourceLoader {
 
-    private static BufferedImageLoader imageLoader = new BufferedImageLoader();
-    
-    public static void preLoad(){
-        try{
-            Images.loading = imageLoader.loadImage("loading.png");
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-    }
     
     /**
      * Loads all of the images and sprites to be used in the game
      */
     public static void loadImages(){
         
-        try{
-            Images.rockyBlocksHD = imageLoader.loadImage("rocky_blocks.png");
-            Images.spritesheetRockyBlocks = ImageModifier.resizeImage(Images.rockyBlocksHD, Reference.ALPHA_RGB, 0, 0, 512, 512, 0.25);
-            Images.metalBlocksHD = imageLoader.loadImage("metal_blocks.png");
-            Images.spritesheetMetalBlocks = ImageModifier.resizeImage(Images.metalBlocksHD, Reference.ALPHA_RGB, 0, 0, 512, 512, 0.25);
-            Images.liquidHD = imageLoader.loadImage("liquid.png");
-            Images.spritesheetLiquid = ImageModifier.resizeImage(Images.liquidHD, Reference.ALPHA_RGB, 0, 0, 512, 512, 0.25);
-            Images.spritesheetPlayer = imageLoader.loadImage("female.png");
-            Images.levelOne = imageLoader.loadImage("levels/level1.png");
-        } catch(IOException e){
-            e.printStackTrace();  //We need to know why we crashed!
-        }
+//        try{
+////            Images.loading = BufferedImageLoader.loadImage("loading.png");
+//        } catch(IOException e){
+//            e.printStackTrace();  //We need to know why we crashed!
+//        }
         
     }
 
@@ -77,9 +56,9 @@ public class ResourceLoader {
      * This includes <code>Sound</code> Effects and <code>Music</code>
      */
     public static void loadSounds(){
-        AudioPlayer.addSound(Audio.SOUND_LASER, "Laser.ogg");
+        AudioPlayer.addSound(Reference.SOUND_LASER, "Laser.ogg");
         
-        AudioPlayer.addMusic(Audio.MUSIC_MOON, "Moon.ogg");
+        AudioPlayer.addMusic(Reference.MUSIC_MOON, "Moon.ogg");
     }
 
 }

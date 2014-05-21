@@ -1,4 +1,4 @@
-/*   Copyright 2013 BossLetsPlays(Matthew Rogers)
+/*   Copyright 2014 BossLetsPlays(Matthew Rogers)
 *
 *   Licensed under the Apache License, Version 2.0 (the "License");
 *   you may not use this file except in compliance with the License.
@@ -12,28 +12,36 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package com.blp.nova.libs;
+package com.blp.nova.gfx.textures;
+
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
  *
- * <strong>Class:</strong> Audio
+ * <strong>Class:</strong> Sprite
  *
  * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
  *
  */
-public class Audio {
-    
-    /*
-     * SOUND EFFECTS
-     */
-    public static final String SOUND_LASER = "laser";
-    
-    
-    /*
-     * MUSIC
-     */
-    public static final String MUSIC_MOON = "moon";
-    
+public class Sprite {
 
+    private int x;
+    private int y;
+    private int size;
+    private SpriteSheet spritesheet;
+    private BufferedImage image;
+    
+    public Sprite(int x, int y, int size, SpriteSheet spritesheet){
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.spritesheet = spritesheet;
+        image = spritesheet.getSprite(x, y, size);
+    }
+    
+    public void render(Graphics g, int x, int y){
+        g.drawImage(image, x, y, null);
+    }
 }
