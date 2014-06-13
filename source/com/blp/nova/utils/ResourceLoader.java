@@ -27,19 +27,6 @@ import com.blp.nova.libs.Reference;
  */
 public class ResourceLoader {
 
-    
-    /**
-     * Loads all of the images and sprites to be used in the game
-     */
-    public static void loadImages(){
-        
-//        try{
-////            Images.loading = BufferedImageLoader.loadImage("loading.png");
-//        } catch(IOException e){
-//            e.printStackTrace();  //We need to know why we crashed!
-//        }
-        
-    }
 
     /**
      * Loads all of the fonts to be used in the game

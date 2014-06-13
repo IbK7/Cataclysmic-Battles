@@ -37,44 +37,47 @@ import com.blp.nova.world.World;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
- *
+ * 
  * <strong>Class:</strong> Game
- *
+ * 
  * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
- *
+ * 
  */
 public class Game extends Canvas implements Runnable {
 
     /**
-     * Docs for serialVersionUID came from <code> java.io.Serializable </code>
-     * <br><br>
-     * The serialization runtime associates with each serializable class a version
-     * number, called a serialVersionUID, which is used during deserialization to
-     * verify that the sender and receiver of a serialized object have loaded
-     * classes for that object that are compatible with respect to serialization.
-     * If the receiver has loaded a class for the object that has a different
-     * serialVersionUID than that of the corresponding sender's class, then
-     * deserialization will result in an {@link InvalidClassException}.  A
-     * serializable class can declare its own serialVersionUID explicitly by
-     * declaring a field named <code>"serialVersionUID"</code> that must be static,
-     * final, and of type <code>long</code>:<p>
-     *
+     * Docs for serialVersionUID came from <code> java.io.Serializable </code> <br>
+     * <br>
+     * The serialization runtime associates with each serializable class a
+     * version number, called a serialVersionUID, which is used during
+     * deserialization to verify that the sender and receiver of a serialized
+     * object have loaded classes for that object that are compatible with
+     * respect to serialization. If the receiver has loaded a class for the
+     * object that has a different serialVersionUID than that of the
+     * corresponding sender's class, then deserialization will result in an
+     * {@link InvalidClassException}. A serializable class can declare its own
+     * serialVersionUID explicitly by declaring a field named
+     * <code>"serialVersionUID"</code> that must be static, final, and of type
+     * <code>long</code>:
+     * <p>
+     * 
      * <PRE>
      * ANY-ACCESS-MODIFIER static final long serialVersionUID = 42L;
      * </PRE>
-     *
-     * If a serializable class does not explicitly declare a serialVersionUID, then
-     * the serialization runtime will calculate a default serialVersionUID value
-     * for that class based on various aspects of the class, as described in the
-     * Java(TM) Object Serialization Specification.  However, it is <em>strongly
+     * 
+     * If a serializable class does not explicitly declare a serialVersionUID,
+     * then the serialization runtime will calculate a default serialVersionUID
+     * value for that class based on various aspects of the class, as described
+     * in the Java(TM) Object Serialization Specification. However, it is
+     * <em>strongly
      * recommended</em> that all serializable classes explicitly declare
-     * serialVersionUID values, since the default serialVersionUID computation is
-     * highly sensitive to class details that may vary depending on compiler
+     * serialVersionUID values, since the default serialVersionUID computation
+     * is highly sensitive to class details that may vary depending on compiler
      * implementations, and can thus result in unexpected
-     * <code>InvalidClassException</code>s during deserialization.  Therefore, to
-     * guarantee a consistent serialVersionUID value across different java compiler
-     * implementations, a serializable class must declare an explicit
-     * serialVersionUID value.  It is also strongly advised that explicit
+     * <code>InvalidClassException</code>s during deserialization. Therefore, to
+     * guarantee a consistent serialVersionUID value across different java
+     * compiler implementations, a serializable class must declare an explicit
+     * serialVersionUID value. It is also strongly advised that explicit
      * serialVersionUID declarations use the <code>private</code> modifier where
      * possible, since such declarations apply only to the immediately declaring
      * class--serialVersionUID fields are not useful as inherited members. Array
@@ -86,37 +89,35 @@ public class Game extends Canvas implements Runnable {
 
     public static final int    WIDTH            = 640;
     public static final int    HEIGHT           = WIDTH / 4 * 3;        //Creates a nice 4:3 ratio for our window
-    public static final String TITLE            = "Cataclysmic Battles";  //The title of our game
+    public static final String TITLE            = "Cataclysmic Battles"; //The title of our game
     public static GameState    state            = GameState.LOADING;    //We start in this game state
 
     private boolean            running          = false;                //by default, we need this to be false so we do not exit our start method right away
     private Thread             thread;                                  //the thread that will control our game loop
-    private Camera             camera;                                 
+    private Camera             camera;
     private Menu               menu;                                    //our menu object
     private World              world;
 
     public Game() {
-        ResourceLoader.loadImages();
         ResourceLoader.loadSounds();
         menu = new Menu();
         world = new World("world.png");
         Player player = new Player(100, 100, world);
-        MouseInput mouse = new MouseInput();  //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
+        MouseInput mouse = new MouseInput(); //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
         this.addMouseListener(mouse); //adds a listener to listen for clicking of mouse buttons
-        this.addMouseMotionListener(mouse);  //adds a listener to listen for mouse motion
-        camera = new Camera();  //this must be initialized AFTER the controller
+        this.addMouseMotionListener(mouse); //adds a listener to listen for mouse motion
+        camera = new Camera(); //this must be initialized AFTER the controller
         this.addKeyListener(new KeyInput());
     }
 
     private void load() {
         ResourceLoader.loadFonts();
         state = GameState.GAME;
-        AudioPlayer.playMusic(Reference.MUSIC_MOON);  //Plays our music
+        AudioPlayer.playMusic(Reference.MUSIC_MOON); //Plays our music
     }
 
     /**
-     * Updates the objects in the game
-     * This also runs the logic in the game
+     * Updates the objects in the game This also runs the logic in the game
      */
     public void tick() {
         if (state == GameState.LOADING) load();
@@ -127,20 +128,20 @@ public class Game extends Canvas implements Runnable {
     }
 
     /**
-     * This renders the graphics for the game
-     * This method uses a triple buffering strategy with a default background of a darkish purple
+     * This renders the graphics for the game This method uses a triple
+     * buffering strategy with a default background of a darkish purple
      */
     public void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
-            createBufferStrategy(3);  //Creates the buffer strategy if there isn't already one
+            createBufferStrategy(3); //Creates the buffer strategy if there isn't already one
             return;
         }
 
         Graphics g = bs.getDrawGraphics(); //We want to use the graphics that comes from our buffer strategy
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(new Color(6, 0, 40));
-        g.fillRect(0, 0, WIDTH, HEIGHT);  //We are creating a background for our game here
+        g.fillRect(0, 0, WIDTH, HEIGHT); //We are creating a background for our game here
 
         ///////////////////////////////////////////////////
         if (state == GameState.LOADING) {}
@@ -149,13 +150,13 @@ public class Game extends Canvas implements Runnable {
 //            renderBackground(g);
             g2d.translate(camera.getX(), camera.getY()); //do this before the foreground and after the background
             world.render(g);
-            g2d.translate(-camera.getX(), -camera.getY());  //do this after the foreground
+            g2d.translate(-camera.getX(), -camera.getY()); //do this after the foreground
         }
 
         ///////////////////////////////////////////////////
 
-        g.dispose();  //Disposes our graphics context (if we did not do this, animations would not work properly, it would also eat up a lot of memory
-        bs.show();  //Shows whatever graphics were just disposed of
+        g.dispose(); //Disposes our graphics context (if we did not do this, animations would not work properly, it would also eat up a lot of memory
+        bs.show(); //Shows whatever graphics were just disposed of
 
     }
 
@@ -173,34 +174,34 @@ public class Game extends Canvas implements Runnable {
      */
     public void run() {
         requestFocus();
-        long lastTime = System.nanoTime();  //gets the time before the loop
-        final double numTicks = 60.0;  //We want to have 60 updates per second, too much and we will lag like a mofo, too litle and it will appear as though nothing is happening in the game
+        long lastTime = System.nanoTime(); //gets the time before the loop
+        final double numTicks = 60.0; //We want to have 60 updates per second, too much and we will lag like a mofo, too litle and it will appear as though nothing is happening in the game
         double nanoSeconds = 1000000000 / numTicks;
-        double delta = 0;  //change over time
-        int frames = 0;  //frames during that second
-        int ticks = 0;  //ticks or updates during that second
-        long timer = System.currentTimeMillis();  //We will be using this as, well, a timer
+        double delta = 0; //change over time
+        int frames = 0; //frames during that second
+        int ticks = 0; //ticks or updates during that second
+        long timer = System.currentTimeMillis(); //We will be using this as, well, a timer
 
-        while (running) {  //we only want to do this stuff if and only if the game is running
-            long currentTime = System.nanoTime();  //the current time during the game loop
-            delta += (currentTime - lastTime) / nanoSeconds;  //because the time is changing, we need to update our delta
+        while (running) { //we only want to do this stuff if and only if the game is running
+            long currentTime = System.nanoTime(); //the current time during the game loop
+            delta += (currentTime - lastTime) / nanoSeconds; //because the time is changing, we need to update our delta
             lastTime = currentTime; /* Our last time now needs to be the previous time during the game loop, we do this by storing the current time, 
                                        this is why this goes AFTER the previous two lines */
 
             if (delta >= 1) { //We want to make sure our delta doesn't remain over 1
-                tick();  //updates the game
-                ticks++;  //Adds to the ticks per second
+                tick(); //updates the game
+                ticks++; //Adds to the ticks per second
                 delta--; //Lowering the delta value for the next run through
             }
 
-            render();  //renders the game
-            frames++;  //Adds to the frames per second
+            render(); //renders the game
+            frames++; //Adds to the frames per second
 
-            if (System.currentTimeMillis() - timer > 1000) {  //We are going to print our frames and ticks to the console every second
-                timer += 1000;  //Time must go on!
-                System.out.println(ticks + " Ticks, FPS: " + frames);  //Prints the TPS and FPS to the console
+            if (System.currentTimeMillis() - timer > 1000) { //We are going to print our frames and ticks to the console every second
+                timer += 1000; //Time must go on!
+                System.out.println(ticks + " Ticks, FPS: " + frames); //Prints the TPS and FPS to the console
                 Window.setTitle(TITLE + "      FPS: " + frames);
-                ticks = 0;  //If we did not do these 2 lines, we would have 10000000000000000000 ticks and fps at one point, then another 10000000000000000000000000000000000000000 the next second
+                ticks = 0; //If we did not do these 2 lines, we would have 10000000000000000000 ticks and fps at one point, then another 10000000000000000000000000000000000000000 the next second
                 frames = 0;
             }
         }
@@ -214,19 +215,19 @@ public class Game extends Canvas implements Runnable {
     }
 
     /**
-     * This starts the game thread
-     * It is synchronized because we do not want to do anything else until this method is 100% complete
+     * This starts the game thread It is synchronized because we do not want to
+     * do anything else until this method is 100% complete
      */
     private synchronized void start() {
         if (running) return; //if the game is already running, we do not want to run the game again
         running = true;
-        thread = new Thread(this);  //this thread controls our game
-        thread.start();  //starts the thread, and thus the game loop
+        thread = new Thread(this); //this thread controls our game
+        thread.start(); //starts the thread, and thus the game loop
     }
 
     /**
-     * This stops the game thread
-     * It is synchronized because we do not want to do anything else until this method is 100% complete
+     * This stops the game thread It is synchronized because we do not want to
+     * do anything else until this method is 100% complete
      */
     private synchronized void stop() {
         if (!running) return; //if the game has already stopped, why stop it again?
@@ -237,14 +238,14 @@ public class Game extends Canvas implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.exit(1);  //exits the game
+        System.exit(1); //exits the game
     }
 
     /**
      * Cleans up resources used by the system to avoid bugs on exit
      */
     private static void cleanUp() {
-        AL.destroy();  //properly closes audio devices
+        AL.destroy(); //properly closes audio devices
     }
 
     /**

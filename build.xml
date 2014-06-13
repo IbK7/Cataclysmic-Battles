@@ -1,0 +1,247 @@
+<?xml version="1.0" ?>
+
+<!--
+    #Written by BossLetsPlays: http://www.youtube.com/BossLetsPlays
+    #This is a very useful build script for exporting and signing Java programs
+    #This file depends on build_number.properties and build.properties
+    #If you downloaded this from my video, you have the build_number.properties
+    #To create the build.properties, please watch the video again
+    #Video: @LINK HERE@
+    ########################################
+    ##INSTRUCTIONS ON EXECUTING THE SCRIPT##
+    ########################################
+    #Please make sure you have Ant installed: http://ant.apache.org/
+    #Place all 3 files in the directory of your project
+    #Open your command prompt (or mac/linux equivalents)
+    #Run the command: ant release
+    #Please not the above command may or may not be specific to windows, I am not a Mac user so I cannot be sure, and I have yet to try on Linux.
+    #Also note that on Linux, you will most likely need to run the command with `sudo`
+    #Enjoy :) and don't forget to subscribe to my youtube channel!
+-->
+
+
+<project name="Game Builder" default="build">
+
+    <condition property="isWindows">
+        <os family="windows" />
+    </condition>
+    <condition property="isMac">
+        <os family="mac" />
+    </condition>
+    <condition property="isUnix">
+        <os family="unix" />
+    </condition>
+
+	<property file="build.properties" prefix="build" />
+	<property file="build_number.properties" prefix="build_number" />
+	<property name="transfered_source" value="${build.dir.release}\source" />
+	<property name="bytecode" value="${build.dir.release}\compiled" />
+	<property name="export_destination" value="${build.dir.release}\${build.release.stage}\${build.release.version}" />
+	<property name="jar_name" value="${build.release.name}-${build.release.version}" />
+    
+	<target name="clean" description="Deletes old files to avoid confliction">
+        <echo message="Cleaning previous build files"/>
+		<delete dir="${transfered_source}" />
+        <delete dir="${bytecode}" />
+        <delete dir="${export_destination}\windows\${build.dir.resources}" />
+        <delete dir="${export_destination}\macosx\${build.dir.resources}" />
+        <delete dir="${export_destination}\linux\${build.dir.resources}" />
+        <delete file="${export_destination}\windows\Run.bat" />
+        <delete file="${export_destination}\linux\Run.sh" />
+        <delete file="${export_destination}\macosx\Run.sh" />
+        <delete dir="${export_destination}\windows\${build.dir.release.lib}"/>
+        <delete dir="${export_destination}\macosx\${build.dir.release.lib}"/>
+        <delete dir="${export_destination}\linux\${build.dir.release.lib}"/>
+        <delete dir="${export_destination}\windows\${build.dir.release.natives}"/>
+        <delete dir="${export_destination}\linux\${build.dir.release.natives}"/>
+        <delete dir="${export_destination}\macosx\${build.dir.release.natives}"/>
+	</target>
+    
+	<target name="increment_build_number" description="Adds 1 to the build number">
+        <echo message="Incrementing build number"/>
+		<propertyfile file="build_number.properties">
+			<entry key="build_number" type="int" operation="+" default="1"/>
+		</propertyfile>
+	</target>
+    
+    <target name="prep" description="Prepares the building process">
+        <echo message="Preparing for the build process"/>
+        <!--Default launcher for the JAR with @JAR_NAME@.jar as the jar to be ran -->
+		<copy todir="${export_destination}\windows">
+			<fileset file="${build.script.batch}" />
+		</copy>
+        
+        <copy todir="${export_destination}\macosx">
+			<fileset file="${build.script.sh}" />
+		</copy>
+        
+        <copy todir="${export_destination}\linux">
+			<fileset file="${build.script.sh}" />
+		</copy>
+        
+		<copy todir="${transfered_source}">
+			<fileset dir="${build.dir.source}" />
+		</copy>
+        <antcall target="copy_resources"/>
+    </target>
+    
+	<target name="replace_tokens" depends="prep" description="Replaces tokens in files with values from property file">
+        <!--Tokens must be formatted as such: @token@ -->
+        <echo message="Parsing through source code and replacing tokens"/>
+		<replace dir="${transfered_source}" token="@VERSION@" value="${build.release.version}" /> <!-- Even if token is not found or used, this will not crash the script, so you can make a general script to use for all your games -->
+		<replace dir="${transfered_source}" token="@BUILD_NUMBER@" value="${build_number.build_number}" />
+        <replace dir="${transfered_source}" token="@FINGERPRINT@" value="${build.fingerprint}" />
+        <echo message="Parsing misc files and replacing tokens"/>
+        <replace dir="${export_destination}\windows" token="@JAR_NAME@" value="${jar_name}-${build_number.build_number}" />
+        <replace dir="${export_destination}\macosx" token="@JAR_NAME@" value="${jar_name}-${build_number.build_number}" />
+        <replace dir="${export_destination}\linux" token="@JAR_NAME@" value="${jar_name}-${build_number.build_number}" />
+        <replace dir="${export_destination}\windows" token="@NATIVES@" value="${build.dir.release.natives}" />
+        <replace dir="${export_destination}\macosx" token="@NATIVES@" value="${build.dir.release.natives}" />
+        <replace dir="${export_destination}\linux" token="@NATIVES@" value="${build.dir.release.natives}" />
+	</target>
+    
+	<target name="sign_jar" depends="build" description="Signs the jar">
+        <echo message="Signing ${jar_name}-${build_number.build_number}.jar"/>
+		<signjar jar="${export_destination}\windows\${jar_name}-${build_number.build_number}.jar" keystore="${build.keystore.location}" alias="${build.keystore.alias}" storepass="${build.keystore.password}" />
+        <signjar jar="${export_destination}\macosx\${jar_name}-${build_number.build_number}.jar" keystore="${build.keystore.location}" alias="${build.keystore.alias}" storepass="${build.keystore.password}" />
+        <signjar jar="${export_destination}\linux\${jar_name}-${build_number.build_number}.jar" keystore="${build.keystore.location}" alias="${build.keystore.alias}" storepass="${build.keystore.password}" />
+	</target>
+    
+	<target name="copy_resources" description="Copies resources to the export directory">
+        <echo message="Copying resources from ${build.dir.resources}"/>
+		<copy todir="${export_destination}\windows\${build.dir.resources}">
+			<fileset dir="${build.dir.resources}"/>
+		</copy>
+        <copy todir="${export_destination}\macosx\${build.dir.resources}">
+			<fileset dir="${build.dir.resources}"/>
+		</copy>
+        <copy todir="${export_destination}\linux\${build.dir.resources}">
+			<fileset dir="${build.dir.resources}"/>
+		</copy>
+        <!-- Copy any other files here too, that don't need to go inside the final JAR -->
+	</target>
+    
+    <target name="compile" depends="replace_tokens" description="Compiles the source code">
+        <echo message="Compiling code from ${transfered_source} to ${bytecode}"/>
+        <!-- Compile the code to be put in Jar -->
+        <mkdir dir="${bytecode}" />
+        <javac srcdir="${transfered_source}" destdir="${bytecode}"/>
+    </target>
+    
+    <target name="compile_with_dependencies" depends="replace_tokens" description="Compiles the source code using the provided libraries">
+        <echo message="Compiling code from ${transfered_source} to ${bytecode} using dependencies from ${build.dir.libraries}"/>
+        <!-- Compile the code to be put in Jar -->
+        <mkdir dir="${bytecode}" />
+        <javac srcdir="${transfered_source}" destdir="${bytecode}">
+            <classpath>
+                <pathelement path="${build.dir.libraries}"/>
+                <fileset dir="${build.dir.libraries}">
+                    <include name="**/*.jar"/>
+                </fileset>                
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="dependencies" description="Transfers libraries to export location">
+        <echo message="Transfering libraries to export locations"/>
+        <!-- Adds additional dependencies -->
+        <copy todir="${export_destination}\windows\${build.dir.release.lib}">
+            <fileset dir="${build.dir.libraries}" includes="**/*.jar" />
+        </copy>
+        
+        <copy todir="${export_destination}\macosx\${build.dir.release.lib}">
+            <fileset dir="${build.dir.libraries}" includes="**/*.jar" />
+        </copy>
+        
+        <copy todir="${export_destination}\linux\${build.dir.release.lib}">
+            <fileset dir="${build.dir.libraries}" includes="**/*.jar" />
+        </copy>
+        
+        <echo message="Adding WINDOWS natives to export location"/>
+        <copy todir="${export_destination}\windows\${build.dir.release.natives}">
+            <fileset dir="${build.dir.libraries}\${build.dir.natives}\windows" includes="**/*.dll" />
+        </copy>
+        
+        <echo message="Adding MACOSX natives to export location"/>
+        <copy todir="${export_destination}\macosx\${build.dir.release.natives}">
+            <fileset dir="${build.dir.libraries}\${build.dir.natives}\macosx" includes="**/*.jnilib **/*.dylib" />
+        </copy>
+        
+        <echo message="Adding LINUX natives to export location"/>
+        <copy todir="${export_destination}\linux\${build.dir.release.natives}">
+            <fileset dir="${build.dir.libraries}\${build.dir.natives}\linux" includes="**/*.so" />
+        </copy>
+        
+    </target>
+    
+	<target name="build" description="builds the jar but does not sign it">
+        <echo message="Building ${build.release.name} game"/>
+		<!-- Prep for the build -->
+        <antcall target="clean" />
+        <antcall target="prep" />
+        <antcall target="dependencies"/> <!-- If using libraries -->
+		<antcall target="replace_tokens" />
+        <antcall target="increment_build_number" />
+        <!-- <antcall target="compile" /> -->
+        <antcall target="compile_with_dependencies" /> <!-- If using libraries -->
+
+		<!-- Build the jar -->
+		<mkdir dir="${export_destination}\windows" />
+        <mkdir dir="${export_destination}\macosx" />
+        <mkdir dir="${export_destination}\linux" />
+        
+		<jar jarfile="${export_destination}\windows\${jar_name}-${build_number.build_number}.jar" basedir="${bytecode}">
+            <manifest>
+                <attribute name="Main-Class" value="${build.manifest.mainclass}"/>  <!-- Class that containes the main method -->
+                <attribute name="Class-Path" value=". ${build.libraries}"/> <!-- make then an empty property if no libraries are needed -->
+            </manifest>
+            <!-- Adds items INTO the jar -->
+                <!-- includes and excludes are seperated by either a <comma> or a <space> -->
+            <!-- <fileset dir="${build.dir.resources}\" includes="FILENAME,FOLDERNAME_AndAllOfItsFilesAndFolders/**,**/*.EXTENSION" />   <= This adds the filename, the folder with its files, and all files with the extension from build.dir.resources  -->
+            <!-- <fileset dir="${build.dir.resources}\" excludes="FILENAME,FOLDERNAME_AndAllOfItsFilesAndFolders/**,**/*.EXTENSION" />   <= This adds everything from build.dir.resources EXCEPT the filename, the folder with its files, and all files with the extension  -->
+		</jar>
+        
+        <jar jarfile="${export_destination}\macosx\${jar_name}-${build_number.build_number}.jar" basedir="${bytecode}">
+            <manifest>
+                <attribute name="Main-Class" value="${build.manifest.mainclass}"/>  <!-- Class that containes the main method -->
+                <attribute name="Class-Path" value=". ${build.libraries}"/> <!-- make then an empty property if no libraries are needed -->
+            </manifest>
+            <!-- Adds items INTO the jar -->
+                <!-- includes and excludes are seperated by either a <comma> or a <space> -->
+            <!-- <fileset dir="${build.dir.resources}\" includes="FILENAME,FOLDERNAME_AndAllOfItsFilesAndFolders/**,**/*.EXTENSION" />   <= This adds the filename, the folder with its files, and all files with the extension from build.dir.resources  -->
+            <!-- <fileset dir="${build.dir.resources}\" excludes="FILENAME,FOLDERNAME_AndAllOfItsFilesAndFolders/**,**/*.EXTENSION" />   <= This adds everything from build.dir.resources EXCEPT the filename, the folder with its files, and all files with the extension  -->
+		</jar>
+        
+        <jar jarfile="${export_destination}\linux\${jar_name}-${build_number.build_number}.jar" basedir="${bytecode}">
+            <manifest>
+                <attribute name="Main-Class" value="${build.manifest.mainclass}"/>  <!-- Class that containes the main method -->
+                <attribute name="Class-Path" value=". ${build.libraries}"/> <!-- make then an empty property if no libraries are needed -->
+            </manifest>
+            <!-- Adds items INTO the jar -->
+                <!-- includes and excludes are seperated by either a <comma> or a <space> -->
+            <!-- <fileset dir="${build.dir.resources}\" includes="FILENAME,FOLDERNAME_AndAllOfItsFilesAndFolders/**,**/*.EXTENSION" />   <= This adds the filename, the folder with its files, and all files with the extension from build.dir.resources  -->
+            <!-- <fileset dir="${build.dir.resources}\" excludes="FILENAME,FOLDERNAME_AndAllOfItsFilesAndFolders/**,**/*.EXTENSION" />   <= This adds everything from build.dir.resources EXCEPT the filename, the folder with its files, and all files with the extension  -->
+		</jar>
+	</target>
+    
+	<target name="release" description="Builds and signs the jar for release">
+        <tstamp>
+            <format property="build.date" pattern="MM-dd-yyyy" />
+            <format property="build.time" pattern="hh.mm.ss" />
+        </tstamp>
+        <property name="timestamp" value="${build.date}_${build.time}"/>
+        <mkdir dir="build"/>
+        <record name="build\build_${timestamp}.log" action="start"/>
+            <echo message="Running build script for the folllowing properties:"/>
+            <echo message="OS: ${os.name}"/>
+            <echo message="OS Architecture: ${os.arch}"/>
+            <echo message="OS Version: ${os.version}"/>
+            <echo message="building and signing jar for release"/>
+            <!-- Build the jar -->
+            <antcall target="build" />
+            <!-- Sign the finished jar -->
+            <!-- <antcall target="sign_jar" /> -->
+        <record name="build\build_${timestamp}.log" action="stop"/>
+	</target>
+    
+</project>
