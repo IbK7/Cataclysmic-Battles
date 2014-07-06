@@ -24,22 +24,22 @@ import com.blp.nova.world.World;
 
 /**
  * <strong>Project:</strong> CataclysmicBattles <br>
- *
+ * 
  * <strong>Class:</strong> Mob
- *
+ * 
  * @author <a href = "http://youtube.com/BossLetsPlays"> BossLetsPlays</a>
- *
+ * 
  */
 public abstract class Mob extends Entity {
 
-    protected float     velX;
-    protected float     velY;
-    protected int       maxVelY   = 5;
-    protected float     gravity   = 0.5f;
+    protected float velX;
+    protected float velY;
+    protected int maxVelY = 7;
+    protected float gravity = 0.5f;
     protected Direction direction = Direction.RIGHT;
-    protected boolean   falling   = true; //true;
+    protected boolean falling = true; //true;
     protected boolean jumping = false;
-    protected boolean   moving    = false;
+    protected boolean moving = false;
     protected Animation animeLeft;
     protected Animation animeRight;
     protected Sprite sprite2;
@@ -53,11 +53,11 @@ public abstract class Mob extends Entity {
         if (velX > 0) direction = Direction.RIGHT;
         else if (velX < 0) direction = Direction.LEFT;
         if (!hasHorizontalCollision()) x += velX;
-        if(!hasVerticalCollision()) y += velY;
+        if (!hasVerticalCollision()) y += velY;
         fall();
         if (velX != 0) moving = true;
         else moving = false;
-        if(moving) getAnimation().runAnimation();
+        if (moving) getAnimation().runAnimation();
     }
 
     @Override
@@ -65,7 +65,6 @@ public abstract class Mob extends Entity {
         if (moving) getAnimation().drawAnimation(g, x, y);
         else getStandingStill().render(g, x, y);
     }
-    
 
     protected void fall() {
         if (falling) {
@@ -85,8 +84,8 @@ public abstract class Mob extends Entity {
     public Animation getAnimation() {
         return direction == Direction.LEFT ? animeLeft : animeRight;
     }
-    
-    public Sprite getStandingStill(){
+
+    public Sprite getStandingStill() {
         return direction == Direction.LEFT ? sprite : sprite2;
     }
 

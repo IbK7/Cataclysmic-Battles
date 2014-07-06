@@ -31,7 +31,7 @@ public class Camera {
 
     /**
      * Updates the camera's x value so it can follow the player
-     * Algorithm used: Tweaning = x += (target - value) * constant
+     * Algorithm used: Tweaning = this.x += (targetX - this.x) * tweanAmount
      */
     public void tick(Player player) {
         x += ((-player.getX() + Game.WIDTH / 2) - x) * 0.0275f;

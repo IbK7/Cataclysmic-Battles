@@ -83,6 +83,10 @@ public class World {
         return entities;
     }
     
+    public ArrayList<Block> getBlocks(){
+        return blocks;
+    }
+    
     public Player getPlayer(){
         for(Entity e : entities)
             if(e instanceof Player) return (Player) e;

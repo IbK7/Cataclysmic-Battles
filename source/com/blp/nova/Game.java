@@ -18,6 +18,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.io.InvalidClassException;
 
@@ -85,24 +86,25 @@ public class Game extends Canvas implements Runnable {
      * the default computed value, but the requirement for matching
      * serialVersionUID values is waived for array classes.
      */
-    private static final long  serialVersionUID = -1890564841829395437L;
+    private static final long serialVersionUID = -1890564841829395437L;
 
-    public static final int    WIDTH            = 640;
-    public static final int    HEIGHT           = WIDTH / 4 * 3;        //Creates a nice 4:3 ratio for our window
-    public static final String TITLE            = "Cataclysmic Battles"; //The title of our game
-    public static GameState    state            = GameState.LOADING;    //We start in this game state
+    public static final int WIDTH = 640;
+    public static final int HEIGHT = WIDTH / 4 * 3; //Creates a nice 4:3 ratio for our window
+    public static final String TITLE = "Cataclysmic Battles"; //The title of our game
+    public static GameState state = GameState.LOADING; //We start in this game state
 
-    private boolean            running          = false;                //by default, we need this to be false so we do not exit our start method right away
-    private Thread             thread;                                  //the thread that will control our game loop
-    private Camera             camera;
-    private Menu               menu;                                    //our menu object
-    private World              world;
+    private boolean running = false; //by default, we need this to be false so we do not exit our start method right away
+    private Thread thread; //the thread that will control our game loop
+    private Camera camera;
+    private Menu menu; //our menu object
+    private World world;
+    private Player player;
 
     public Game() {
         ResourceLoader.loadSounds();
         menu = new Menu();
         world = new World("world.png");
-        Player player = new Player(100, 100, world);
+        player = new Player(100, 100, world);
         MouseInput mouse = new MouseInput(); //local mouse input object is used instead of an anonymous inner type so we may have multiple mouse listeners working together better
         this.addMouseListener(mouse); //adds a listener to listen for clicking of mouse buttons
         this.addMouseMotionListener(mouse); //adds a listener to listen for mouse motion
@@ -122,8 +124,14 @@ public class Game extends Canvas implements Runnable {
     public void tick() {
         if (state == GameState.LOADING) load();
         if (state == GameState.GAME) {
-            world.tick();
-            camera.tick(world.getPlayer());
+            if(KeyInput.getKey(KeyEvent.VK_N)){
+                world = new World("moon.png");
+                player = new Player(100, 100, world);
+            }
+            if (world != null) {
+                world.tick();
+                camera.tick(world.getPlayer());
+            }
         }
     }
 
@@ -144,9 +152,9 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0, 0, WIDTH, HEIGHT); //We are creating a background for our game here
 
         ///////////////////////////////////////////////////
-        if (state == GameState.LOADING) {}
+        if (state == GameState.LOADING) g.fillRect(0, 0, WIDTH, HEIGHT);
         //render splashscreen
-        else {
+        else if (world != null) {
 //            renderBackground(g);
             g2d.translate(camera.getX(), camera.getY()); //do this before the foreground and after the background
             world.render(g);
@@ -159,14 +167,6 @@ public class Game extends Canvas implements Runnable {
         bs.show(); //Shows whatever graphics were just disposed of
 
     }
-
-//    private void renderBackground(Graphics g){
-//        
-//    }
-
-//    private void renderForeground(Graphics g){
-//        
-//    }
 
     @Override
     /**
