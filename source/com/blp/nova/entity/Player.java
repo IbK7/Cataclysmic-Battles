@@ -14,6 +14,8 @@
 */
 package com.blp.nova.entity;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
@@ -36,9 +38,12 @@ import com.blp.nova.world.World;
 public class Player extends Mob {
 
     private static SpriteSheet sheet = new SpriteSheet("player.png");
+    
+    private int score;
 
     public Player(int x, int y, World world) {
         super(x, y, world);
+        score = 0;
         sprite = new Sprite(2, 1, 50, sheet);
         sprite2 = new Sprite(1, 1, 50, sheet);
         Sprite[] rights = new Sprite[]
@@ -76,11 +81,22 @@ public class Player extends Mob {
             jumping = true;
             velY = -10;
         }
+        if(KeyInput.getKey(KeyEvent.VK_T)) System.out.println("Score: " + score);
         super.tick();
+    }
+    
+    @Override
+    public void render(Graphics g) {
+        super.render(g);
+        drawHud(g);
+    }
+    private void drawHud(Graphics g){
+        g.setColor(Color.WHITE);
+        g.drawString("Score: " + score, 10, 30);
     }
 
     @Override
-    protected boolean hasVerticalCollision() { //because our collision methods are now seperated, we have pixel perfect collision
+    protected boolean hasVerticalCollision() { //because our collision methods are now separated, we have pixel perfect collision
         for (int i = 0; i < world.getBlocks().size(); i++) {
             Block block = world.getBlocks().get(i);
             //if velY > 0 that means we are trying to jump, so it should let us
@@ -94,6 +110,17 @@ public class Player extends Mob {
                 return true;
             }
         }
+        
+        for(int i = 0; i < world.getEntities().size(); i++){
+            Coin coin = null;
+            if(world.getEntities().get(i) instanceof Coin) coin = (Coin)world.getEntities().get(i);
+            if(coin != null){
+                if(getBounds().intersects(coin.getBounds())){
+                    world.removeEntity(i);
+                    score++;
+                }
+            }
+        }
 
         return false;
     }
@@ -105,6 +132,18 @@ public class Player extends Mob {
             if (getRight().intersects(block.getRight()) && velX > 0) return true;
             if (getLeft().intersects(block.getLeft()) && velX < 0) return true;
         }
+        
+        for(int i = 0; i < world.getEntities().size(); i++){
+            Coin coin = null;
+            if(world.getEntities().get(i) instanceof Coin) coin = (Coin)world.getEntities().get(i);
+            if(coin != null){
+                if(getBounds().intersects(coin.getBounds())){
+                    world.removeEntity(i);
+                    score++;
+                }
+            }
+        }
+        
         return false;
     }
 

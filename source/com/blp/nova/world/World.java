@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import com.blp.nova.entity.Coin;
 import com.blp.nova.entity.Entity;
 import com.blp.nova.entity.Player;
 import com.blp.nova.libs.Reference;
@@ -61,18 +62,23 @@ public class World {
                     blocks.add(new Block(pixels[x + y * width], x, y));
             }
         }
+        
+        Coin coin1 = new Coin(100, 300, this);
+        Coin coin2 = new Coin(100, 350, this);
+        Coin coin3 = new Coin(150, 300, this);
+        Coin coin4 = new Coin(150, 400, this);
     }
     
     public void tick(){
-        for(Entity e : entities)
-            e.tick();
+        for(int i = 0; i < entities.size(); i++)
+            entities.get(i).tick();
     }
     
     public void render(Graphics g){
-        for(Block b : blocks)
-            b.render(g);
-        for(Entity e : entities)
-            e.render(g);
+        for(int i = 0; i < blocks.size(); i++)
+            blocks.get(i).render(g);
+        for(int i = 0; i < entities.size(); i++)
+            entities.get(i).render(g);
     }
     
     public void addEntity(Entity e){
@@ -87,6 +93,10 @@ public class World {
         return blocks;
     }
     
+    
+    public void removeEntity(int index){
+        entities.remove(index);
+    }
     public Player getPlayer(){
         for(Entity e : entities)
             if(e instanceof Player) return (Player) e;
