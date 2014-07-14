@@ -14,8 +14,6 @@
 */
 package com.blp.nova.entity;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
@@ -24,6 +22,8 @@ import com.blp.nova.gfx.Animation;
 import com.blp.nova.gfx.textures.Sprite;
 import com.blp.nova.gfx.textures.SpriteSheet;
 import com.blp.nova.input.KeyInput;
+import com.blp.nova.libs.Reference;
+import com.blp.nova.utils.AudioPlayer;
 import com.blp.nova.world.Block;
 import com.blp.nova.world.World;
 
@@ -81,19 +81,9 @@ public class Player extends Mob {
             jumping = true;
             velY = -10;
         }
-        if(KeyInput.getKey(KeyEvent.VK_T)) System.out.println("Score: " + score);
         super.tick();
     }
     
-    @Override
-    public void render(Graphics g) {
-        super.render(g);
-        drawHud(g);
-    }
-    private void drawHud(Graphics g){
-        g.setColor(Color.WHITE);
-        g.drawString("Score: " + score, 10, 30);
-    }
 
     @Override
     protected boolean hasVerticalCollision() { //because our collision methods are now separated, we have pixel perfect collision
@@ -108,17 +98,6 @@ public class Player extends Mob {
             if (getTop().intersects(block.getBottom()) && velY < 0) {
                 velY = 0;
                 return true;
-            }
-        }
-        
-        for(int i = 0; i < world.getEntities().size(); i++){
-            Coin coin = null;
-            if(world.getEntities().get(i) instanceof Coin) coin = (Coin)world.getEntities().get(i);
-            if(coin != null){
-                if(getBounds().intersects(coin.getBounds())){
-                    world.removeEntity(i);
-                    score++;
-                }
             }
         }
 
@@ -139,6 +118,7 @@ public class Player extends Mob {
             if(coin != null){
                 if(getBounds().intersects(coin.getBounds())){
                     world.removeEntity(i);
+                    AudioPlayer.playSound(Reference.SOUND_COIN);
                     score++;
                 }
             }
@@ -170,6 +150,10 @@ public class Player extends Mob {
     @Override
     public Rectangle getBounds() {
         return new Rectangle(x, y, 50, 50);
+    }
+
+    public int getScore() {
+        return score;
     }
 
 }

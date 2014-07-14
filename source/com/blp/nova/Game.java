@@ -31,6 +31,7 @@ import com.blp.nova.input.MouseInput;
 import com.blp.nova.libs.Reference;
 import com.blp.nova.main.Camera;
 import com.blp.nova.main.Window;
+import com.blp.nova.screens.Hud;
 import com.blp.nova.screens.Menu;
 import com.blp.nova.utils.AudioPlayer;
 import com.blp.nova.utils.ResourceLoader;
@@ -159,6 +160,7 @@ public class Game extends Canvas implements Runnable {
             g2d.translate(camera.getX(), camera.getY()); //do this before the foreground and after the background
             world.render(g);
             g2d.translate(-camera.getX(), -camera.getY()); //do this after the foreground
+            Hud.render(g, world.getPlayer());
         }
 
         ///////////////////////////////////////////////////

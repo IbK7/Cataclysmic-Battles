@@ -44,6 +44,7 @@ public class ResourceLoader {
      */
     public static void loadSounds(){
         AudioPlayer.addSound(Reference.SOUND_LASER, "Laser.ogg");
+        AudioPlayer.addSound(Reference.SOUND_COIN, "Coin.ogg");
         
         AudioPlayer.addMusic(Reference.MUSIC_MOON, "Moon.ogg");
     }

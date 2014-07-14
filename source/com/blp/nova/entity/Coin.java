@@ -14,10 +14,12 @@
 */
 package com.blp.nova.entity;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import com.blp.nova.gfx.Animation;
+import com.blp.nova.gfx.textures.Sprite;
+import com.blp.nova.gfx.textures.SpriteSheet;
 import com.blp.nova.world.World;
 
 /**
@@ -27,24 +29,32 @@ import com.blp.nova.world.World;
  * @author <a href = "http://blp.vc-network.com"> BossLetsPlays</a>
  */
 public class Coin extends Entity {
+    
+    private Animation anime;
+    private static final SpriteSheet sheet = new SpriteSheet("spritesheet.png");
 
     public Coin(int x, int y, World world) {
         super(x, y, world);
+        Sprite[] sprites = {    new Sprite(1, 2, 32, sheet), new Sprite(2, 2, 32, sheet),
+                                new Sprite(3, 2, 32, sheet), new Sprite(4, 2, 32, sheet),
+                                new Sprite(5, 2, 32, sheet), new Sprite(6, 2, 32, sheet) };
+        anime = new Animation(4, sprites);
     }
 
     @Override
-    public void tick() {}
+    public void tick() {
+        anime.runAnimation();
+    }
     
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.YELLOW);
-        g.fillRect(x + 8, y + 8, 16, 16);
+        anime.drawAnimation(g, x, y);
     }
 
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x, y, 16, 16);
+        return new Rectangle(x + 3, y + 3, 26, 26);
     }
     
     @Override

@@ -63,6 +63,7 @@ public class Reference {
      * Audio
      */
     public static final String SOUND_LASER = "laser";
+    public static final String SOUND_COIN = "coin";
     public static final String MUSIC_MOON = "moon";
     
     
